@@ -1,6 +1,9 @@
 ﻿using UnityEditor;
 
-public interface IBuildConfig
+namespace VoltBuilder
 {
-	BuildTarget BuildTarget { get; set; }
+	public interface IBuildConfig
+	{
+		BuildTarget BuildTarget { get; set; }
+	}
 }

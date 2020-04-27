@@ -1,11 +1,14 @@
 ﻿using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-public interface IGameBuild
+namespace VoltBuilder
 {
-	void DrawAssetBundleCommands(BuildTool buildTool);
-	void BuildBundles(string buildPath, BuildAssetBundleOptions options, bool forced);
+	public interface IGameBuild
+	{
+		void DrawAssetBundleCommands(BuildTool buildTool);
+		void BuildBundles(string buildPath, BuildAssetBundleOptions options, bool forced);
 
-	void DrawBuildGameCommands(BuildTool buildTool);
-	BuildReport BuildGame(string[] levels, string buildPath, string exeName, BuildTarget target, BuildOptions options);
+		void DrawBuildGameCommands(BuildTool buildTool);
+		BuildReport BuildGame(string[] levels, string buildPath, string exeName, BuildTarget target, BuildOptions options);
+	}
 }

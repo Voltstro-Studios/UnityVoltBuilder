@@ -1,7 +1,7 @@
 {
-  "$type": "Config, Assembly-CSharp-Editor",
+  "$type": "VoltBuilder.Config, VoltBuilder",
   "BuildOptions": {
-    "$type": "DefaultBuildConfig, Assembly-CSharp-Editor",
+    "$type": "VoltBuilder.DefaultBuildConfig, VoltBuilder",
     "BuildTarget": 19,
     "DevBuild": false,
     "CopyPDBFiles": false,
@@ -10,15 +10,15 @@
   },
   "ProjectName": "VoltBuilder",
   "Scenes": {
-    "$type": "System.Collections.Generic.List`1[[Scene, Assembly-CSharp-Editor]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[VoltBuilder.Scene, VoltBuilder]], mscorlib",
     "$values": [
       {
-        "$type": "Scene, Assembly-CSharp-Editor",
+        "$type": "VoltBuilder.Scene, VoltBuilder",
         "SceneName": "SampleScene.unity",
         "SceneLocation": "Assets/Scenes/SampleScene.unity"
       },
       {
-        "$type": "Scene, Assembly-CSharp-Editor",
+        "$type": "VoltBuilder.Scene, VoltBuilder",
         "SceneName": "Scene2.unity",
         "SceneLocation": "Assets/Scenes/Scene2.unity"
       }

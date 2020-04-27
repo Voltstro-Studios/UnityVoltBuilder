@@ -1,4 +1,7 @@
-﻿public interface IZip
+﻿namespace VoltBuilder
 {
-	void CompressDir(string directoryToCompress, string outPath);
+	public interface IZip
+	{
+		void CompressDir(string directoryToCompress, string outPath);
+	}
 }

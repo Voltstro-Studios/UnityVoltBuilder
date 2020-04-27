@@ -1,33 +1,36 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-public class DefaultBuildSettings : IBuildSettings
+namespace VoltBuilder
 {
-	public void DrawBuildSettings(BuildTool buildTool)
+	public class DefaultBuildSettings : IBuildSettings
 	{
-		if (ConfigManager.GetBuildConfig(out DefaultBuildConfig config))
+		public void DrawBuildSettings(BuildTool buildTool)
 		{
-			config.BuildTarget =
-				(BuildTarget) EditorGUILayout.EnumPopup("Build Target:", config.BuildTarget);
-
-			EditorGUILayout.BeginHorizontal();
-			config.DevBuild = EditorGUILayout.Toggle("Dev Build", config.DevBuild);
-			config.CopyPDBFiles = EditorGUILayout.Toggle("Copy PDB files", config.CopyPDBFiles);
-			EditorGUILayout.EndHorizontal();
-
-			EditorGUILayout.BeginHorizontal();
-			config.ServerBuild = EditorGUILayout.Toggle("Server Build", config.ServerBuild);
-			config.ZipFiles = EditorGUILayout.Toggle("Zip Build", config.ZipFiles);
-			EditorGUILayout.EndHorizontal();
-
-			if (GUILayout.Button("Save Settings"))
+			if (ConfigManager.GetBuildConfig(out DefaultBuildConfig config))
 			{
-				buildTool.SaveSettings();
+				config.BuildTarget =
+					(BuildTarget) EditorGUILayout.EnumPopup("Build Target:", config.BuildTarget);
+
+				EditorGUILayout.BeginHorizontal();
+				config.DevBuild = EditorGUILayout.Toggle("Dev Build", config.DevBuild);
+				config.CopyPDBFiles = EditorGUILayout.Toggle("Copy PDB files", config.CopyPDBFiles);
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.BeginHorizontal();
+				config.ServerBuild = EditorGUILayout.Toggle("Server Build", config.ServerBuild);
+				config.ZipFiles = EditorGUILayout.Toggle("Zip Build", config.ZipFiles);
+				EditorGUILayout.EndHorizontal();
+
+				if (GUILayout.Button("Save Settings"))
+				{
+					buildTool.SaveSettings();
+				}
 			}
-		}
-		else
-		{
-			Debug.LogError("Build config is not the default one!");
+			else
+			{
+				Debug.LogError("Build config is not the default one!");
+			}
 		}
 	}
 }

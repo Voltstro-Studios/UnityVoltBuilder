@@ -5,73 +5,76 @@ using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
-public static class ConfigManager
+namespace VoltBuilder
 {
-	private const string ConfigFile = "VoltBuild.json";
-
-	internal static Config Config;
-
-	private static string GetSettingsPath()
+	public static class ConfigManager
 	{
-		return $"{Application.dataPath.Replace("Assets", "")}ProjectSettings/VoltBuild/" ;
-	}
+		private const string ConfigFile = "VoltBuild.json";
 
-	static ConfigManager()
-	{
-		//Make sure the directory exists
-		if (!Directory.Exists(GetSettingsPath()))
-			Directory.CreateDirectory(GetSettingsPath());
+		internal static Config Config;
 
-		//Make sure the file exists
-		if (!File.Exists(GetSettingsPath() + ConfigFile))
+		private static string GetSettingsPath()
 		{
-			Config = NewConfig();
-
-			SaveConfig();
-
-			Debug.Log("Created new VoltBuild config.");
-			return;
+			return $"{Application.dataPath.Replace("Assets", "")}ProjectSettings/VoltBuild/" ;
 		}
 
-		string json = File.ReadAllText(GetSettingsPath() + ConfigFile);
-		Config = JsonConvert.DeserializeObject<Config>(json, new JsonSerializerSettings
+		static ConfigManager()
 		{
-			TypeNameHandling = TypeNameHandling.All
-		});
-	}
+			//Make sure the directory exists
+			if (!Directory.Exists(GetSettingsPath()))
+				Directory.CreateDirectory(GetSettingsPath());
 
-	public static void SaveConfig()
-	{
-		string json = JsonConvert.SerializeObject(Config, Formatting.Indented, new JsonSerializerSettings
-		{
-			TypeNameHandling = TypeNameHandling.All
-		});
-		File.WriteAllText(GetSettingsPath() + ConfigFile, json);
-	}
-
-	public static bool GetBuildConfig<T>(out T config)
-	{
-		if (Config.BuildOptions is T options)
-		{
-			config = options;
-			return true;
-		}
-
-		throw new InvalidCastException("T isn't the current build options!");
-	}
-
-	private static Config NewConfig()
-	{
-		return new Config
-		{
-			ProjectName = Application.productName,
-			BuildDir = "Build/",
-			Scenes = new List<Scene>(),
-			BuildOptions = new DefaultBuildConfig
+			//Make sure the file exists
+			if (!File.Exists(GetSettingsPath() + ConfigFile))
 			{
-				BuildTarget = EditorUserBuildSettings.activeBuildTarget,
-				ZipFiles = false
+				Config = NewConfig();
+
+				SaveConfig();
+
+				Debug.Log("Created new VoltBuilder config.");
+				return;
 			}
-		};
+
+			string json = File.ReadAllText(GetSettingsPath() + ConfigFile);
+			Config = JsonConvert.DeserializeObject<Config>(json, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.All
+			});
+		}
+
+		public static void SaveConfig()
+		{
+			string json = JsonConvert.SerializeObject(Config, Formatting.Indented, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.All
+			});
+			File.WriteAllText(GetSettingsPath() + ConfigFile, json);
+		}
+
+		public static bool GetBuildConfig<T>(out T config)
+		{
+			if (Config.BuildOptions is T options)
+			{
+				config = options;
+				return true;
+			}
+
+			throw new InvalidCastException("T isn't the current build options!");
+		}
+
+		private static Config NewConfig()
+		{
+			return new Config
+			{
+				ProjectName = Application.productName,
+				BuildDir = "Build/",
+				Scenes = new List<Scene>(),
+				BuildOptions = new DefaultBuildConfig
+				{
+					BuildTarget = EditorUserBuildSettings.activeBuildTarget,
+					ZipFiles = false
+				}
+			};
+		}
 	}
 }

@@ -1,9 +1,12 @@
 ﻿using System.IO.Compression;
 
-public class DefaultZip : IZip
+namespace VoltBuilder
 {
-	public void CompressDir(string directoryToCompress, string outPath)
+	public class DefaultZip : IZip
 	{
-		ZipFile.CreateFromDirectory(directoryToCompress, outPath);
+		public void CompressDir(string directoryToCompress, string outPath)
+		{
+			ZipFile.CreateFromDirectory(directoryToCompress, outPath);
+		}
 	}
 }

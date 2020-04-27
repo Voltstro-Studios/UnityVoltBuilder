@@ -1,6 +1,9 @@
-﻿public class Scene
+﻿namespace VoltBuilder
 {
-	public string SceneName;
+	public class Scene
+	{
+		public string SceneName;
 
-	public string SceneLocation { get; set; }
+		public string SceneLocation { get; set; }
+	}
 }

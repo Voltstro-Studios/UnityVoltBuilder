@@ -1,4 +1,7 @@
-﻿public interface IBuildSettings
+﻿namespace VoltBuilder
 {
-	void DrawBuildSettings(BuildTool buildTool);
+	public interface IBuildSettings
+	{
+		void DrawBuildSettings(BuildTool buildTool);
+	}
 }
