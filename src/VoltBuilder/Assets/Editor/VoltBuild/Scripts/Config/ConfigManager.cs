@@ -9,15 +9,19 @@ namespace VoltBuilder
 {
 	public static class ConfigManager
 	{
+		/// <summary>
+		/// The config path
+		/// </summary>
 		private const string ConfigFile = "VoltBuild.json";
 
-		internal static Config Config;
+		/// <summary>
+		/// The config
+		/// </summary>
+		public static Config Config;
 
-		private static string GetSettingsPath()
-		{
-			return $"{Application.dataPath.Replace("Assets", "")}ProjectSettings/VoltBuild/" ;
-		}
-
+		/// <summary>
+		/// Handles config stuff
+		/// </summary>
 		static ConfigManager()
 		{
 			//Make sure the directory exists
@@ -42,6 +46,9 @@ namespace VoltBuilder
 			});
 		}
 
+		/// <summary>
+		/// Saves the config (duh)
+		/// </summary>
 		public static void SaveConfig()
 		{
 			string json = JsonConvert.SerializeObject(Config, Formatting.Indented, new JsonSerializerSettings
@@ -51,6 +58,12 @@ namespace VoltBuilder
 			File.WriteAllText(GetSettingsPath() + ConfigFile, json);
 		}
 
+		/// <summary>
+		/// Gets the custom config for build settings
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="config"></param>
+		/// <returns></returns>
 		public static bool GetBuildConfig<T>(out T config)
 		{
 			if (Config.BuildOptions is T options)
@@ -75,6 +88,15 @@ namespace VoltBuilder
 					ZipFiles = false
 				}
 			};
+		}
+
+		/// <summary>
+		/// Gets the path to the VoltBuild config directory
+		/// </summary>
+		/// <returns></returns>
+		private static string GetSettingsPath()
+		{
+			return $"{Application.dataPath.Replace("Assets", "")}ProjectSettings/VoltBuild/" ;
 		}
 	}
 }

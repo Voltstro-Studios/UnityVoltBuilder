@@ -5,6 +5,7 @@ namespace VoltBuilder
 {
 	public class DefaultBuildSettings : IBuildSettings
 	{
+		/// <inheritdoc/>
 		public void DrawBuildSettings(BuildTool buildTool)
 		{
 			if (ConfigManager.GetBuildConfig(out DefaultBuildConfig config))

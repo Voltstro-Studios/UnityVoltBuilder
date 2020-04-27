@@ -55,6 +55,9 @@ namespace VoltBuilder
 
 		#region Config Mangement
 
+		/// <summary>
+		/// Saves settings
+		/// </summary>
 		public void SaveSettings()
 		{
 			ConfigManager.Config.ProjectName = projectName;
@@ -62,6 +65,9 @@ namespace VoltBuilder
 			ConfigManager.SaveConfig();
 		}
 
+		/// <summary>
+		/// Loads settings
+		/// </summary>
 		public void LoadSettings()
 		{
 			projectName = ConfigManager.Config.ProjectName;
@@ -72,6 +78,9 @@ namespace VoltBuilder
 
 		#region Scene Setting Stuff
 
+		/// <summary>
+		/// Reloads scene list
+		/// </summary>
 		public void ReloadScenes()
 		{
 			scenesToBuildList = sceneSettings.CreateScenesList();
@@ -116,6 +125,10 @@ namespace VoltBuilder
 			gameBuilder.DrawBuildGameCommands(this);
 		}
 
+		/// <summary>
+		/// Gets the path where builds go to
+		/// </summary>
+		/// <returns></returns>
 		public string GetBuildFolder()
 		{
 			return $"{Application.dataPath.Replace("Assets", "")}{ConfigManager.Config.BuildDir}";

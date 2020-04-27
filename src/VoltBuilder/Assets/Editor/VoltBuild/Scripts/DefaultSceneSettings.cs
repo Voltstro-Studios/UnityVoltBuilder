@@ -8,6 +8,7 @@ namespace VoltBuilder
 {
 	public class DefaultSceneSettings : ISceneSettings
 	{
+		/// <inheritdoc/>
 		public Scene[] GetAllScenes()
 		{
 			List<Scene> scenes = new List<Scene>();
@@ -26,6 +27,7 @@ namespace VoltBuilder
 			return scenes.ToArray();
 		}
 
+		/// <inheritdoc/>
 		public ReorderableList CreateScenesList()
 		{
 			ReorderableList list = new ReorderableList(GetAllScenes().ToList(), typeof(string), true, true, false, false)
@@ -43,6 +45,7 @@ namespace VoltBuilder
 			return list;
 		}
 
+		/// <inheritdoc/>
 		public void DrawSceneSettings(BuildTool buildTool)
 		{
 			GUILayout.BeginHorizontal();

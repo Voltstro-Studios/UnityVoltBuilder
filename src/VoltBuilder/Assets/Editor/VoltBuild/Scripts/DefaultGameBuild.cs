@@ -12,6 +12,7 @@ namespace VoltBuilder
 {
 	public class DefaultGameBuild : IGameBuild
 	{
+		/// <inheritdoc/>
 		public void DrawAssetBundleCommands(BuildTool buildTool)
 		{
 			EditorGUILayout.LabelField("Asset Bundles");
@@ -26,6 +27,7 @@ namespace VoltBuilder
 			GUILayout.EndHorizontal();
 		}
 
+		/// <inheritdoc/>
 		public void BuildBundles(string buildPath, BuildAssetBundleOptions options, bool forced)
 		{
 			if (!Directory.Exists(buildPath))
@@ -39,6 +41,7 @@ namespace VoltBuilder
 			BuildPipeline.BuildAssetBundles(buildPath, options, BuildTarget.StandaloneWindows64);
 		}
 
+		/// <inheritdoc/>
 		public void DrawBuildGameCommands(BuildTool buildTool)
 		{
 			GUILayout.BeginHorizontal();
@@ -73,6 +76,7 @@ namespace VoltBuilder
 			GUILayout.EndHorizontal();
 		}
 
+		/// <inheritdoc/>
 		public BuildReport BuildGame(string[] levels, string buildPath, string exeName, BuildTarget target, BuildOptions options)
 		{
 			if (!Directory.Exists(buildPath))
@@ -86,6 +90,13 @@ namespace VoltBuilder
 
 		#region Private Methods
 
+		/// <summary>
+		/// Does a game build
+		/// </summary>
+		/// <param name="buildFolder"></param>
+		/// <param name="folderName"></param>
+		/// <param name="projectName"></param>
+		/// <param name="scriptsOnly"></param>
 		private void DoGameBuild(string buildFolder, string folderName, string projectName, bool scriptsOnly)
 		{
 			Debug.Log($"Building game to `{buildFolder}{folderName}`...");
@@ -139,6 +150,11 @@ namespace VoltBuilder
 			}
 		}
 
+		/// <summary>
+		/// Does a complete new game build, to a new folder
+		/// </summary>
+		/// <param name="buildFolder"></param>
+		/// <param name="projectName"></param>
 		private void FullNewBuild(string buildFolder, string projectName)
 		{
 			string buildFolderName = $"{projectName}-{DateTime.Now:yy-MM-dd}";
