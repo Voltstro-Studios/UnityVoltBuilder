@@ -1,0 +1,28 @@
+{
+  "$type": "Config, Assembly-CSharp-Editor",
+  "BuildOptions": {
+    "$type": "DefaultBuildConfig, Assembly-CSharp-Editor",
+    "BuildTarget": 19,
+    "DevBuild": false,
+    "CopyPDBFiles": false,
+    "ServerBuild": false,
+    "ZipFiles": false
+  },
+  "ProjectName": "VoltBuilder",
+  "Scenes": {
+    "$type": "System.Collections.Generic.List`1[[Scene, Assembly-CSharp-Editor]], mscorlib",
+    "$values": [
+      {
+        "$type": "Scene, Assembly-CSharp-Editor",
+        "SceneName": "SampleScene.unity",
+        "SceneLocation": "Assets/Scenes/SampleScene.unity"
+      },
+      {
+        "$type": "Scene, Assembly-CSharp-Editor",
+        "SceneName": "Scene2.unity",
+        "SceneLocation": "Assets/Scenes/Scene2.unity"
+      }
+    ]
+  },
+  "BuildDir": "Build/"
+}
