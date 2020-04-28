@@ -30,10 +30,10 @@ namespace VoltBuilder
 		/// </summary>
 		/// <param name="levels"></param>
 		/// <param name="buildPath"></param>
-		/// <param name="exeName"></param>
+		/// <param name="fileName"></param>
 		/// <param name="target"></param>
 		/// <param name="options"></param>
 		/// <returns></returns>
-		BuildReport BuildGame(string[] levels, string buildPath, string exeName, BuildTarget target, BuildOptions options);
+		BuildReport BuildGame(string[] levels, string buildPath, string fileName, BuildTarget target, BuildOptions options);
 	}
 }

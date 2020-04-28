@@ -30,20 +30,22 @@ namespace VoltBuilder
 		/// <inheritdoc/>
 		public void BuildBundles(string buildPath, BuildAssetBundleOptions options, bool forced)
 		{
+			//Create the directory if it doesn't exist
 			if (!Directory.Exists(buildPath))
 				Directory.CreateDirectory(buildPath);
 
+			//Setup options
 			if (forced)
-			{
 				options |= BuildAssetBundleOptions.ForceRebuildAssetBundle;
-			}
 
+			//Build asset bundles
 			BuildPipeline.BuildAssetBundles(buildPath, options, BuildTarget.StandaloneWindows64);
 		}
 
 		/// <inheritdoc/>
 		public void DrawBuildGameCommands(BuildTool buildTool)
 		{
+			//Build game commands
 			GUILayout.BeginHorizontal();
 
 			if(GUILayout.Button("Build Game"))
@@ -53,6 +55,7 @@ namespace VoltBuilder
 
 			GUILayout.EndHorizontal();
 
+			//New build commands, as well as open to the build folder (Default `/Build`)
 			GUILayout.BeginHorizontal();
 			if(GUILayout.Button("Full New Build"))
 				FullNewBuild(buildTool.GetBuildFolder(), ConfigManager.Config.ProjectName);
@@ -68,24 +71,24 @@ namespace VoltBuilder
 					p.Start();
 				}
 				else
-				{
-					Debug.LogError($"Build folder doesn't exist yet!");
-				}
+					Debug.LogError("Build folder doesn't exist yet!");
 			}
 
 			GUILayout.EndHorizontal();
 		}
 
 		/// <inheritdoc/>
-		public BuildReport BuildGame(string[] levels, string buildPath, string exeName, BuildTarget target, BuildOptions options)
+		public BuildReport BuildGame(string[] levels, string buildPath, string fileName, BuildTarget target, BuildOptions options)
 		{
 			if (!Directory.Exists(buildPath))
 				Directory.CreateDirectory(buildPath);
 
+			//Since it is a Windows build, we need to add '.exe' to the end of it
 			if (target == BuildTarget.StandaloneWindows || target == BuildTarget.StandaloneWindows64)
-				exeName += ".exe";
+				fileName += ".exe";
 
-			return BuildPipeline.BuildPlayer(levels, buildPath + exeName, target, options);
+			//Build the game, and return its result
+			return BuildPipeline.BuildPlayer(levels, buildPath + fileName, target, options);
 		}
 
 		#region Private Methods
@@ -101,8 +104,8 @@ namespace VoltBuilder
 		{
 			Debug.Log($"Building game to `{buildFolder}{folderName}`...");
 
+			//Configure stuff first, such as scenes and build options
 			List<string> levels = ConfigManager.Config.Scenes.Select(scene => scene.SceneLocation).ToList();
-
 			bool isDevBuild = false;
 			bool copyPdbFiles = false;
 			bool serverBuild = false;
@@ -117,21 +120,23 @@ namespace VoltBuilder
 				zipFiles = config.ZipFiles;
 			}
 
+			//Setup build options
 			BuildOptions buildOptions = BuildOptions.None;
 			if (isDevBuild)
 				buildOptions |= BuildOptions.Development;
-
 			if (serverBuild)
 				buildOptions |= BuildOptions.EnableHeadlessMode;
-
 			if (scriptsOnly)
 				buildOptions |= BuildOptions.BuildScriptsOnly;
 
+			//Change Copy PDB files on build setting
 			EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles", copyPdbFiles ? "true" : "false");
 
+			//We do the build
 			BuildReport result = BuildGame(levels.ToArray(), buildFolder + folderName, projectName,
 				BuildTarget.StandaloneWindows64, buildOptions);
 
+			//Make sure the build didn't fail
 			if (result.summary.result == BuildResult.Failed)
 			{
 				Debug.LogError("BUILD FAILED!");
@@ -140,7 +145,9 @@ namespace VoltBuilder
 
 			Debug.Log("Build was a success!");
 
-			//Zip files
+			//TODO: Copy extra files
+
+			//Zip files (if enabled)
 			if (zipFiles)
 			{
 				Debug.Log("Zipping build...");
@@ -161,30 +168,33 @@ namespace VoltBuilder
 			int count = 0;
 			bool folderExists = true;
 
+			//First, we need to find a new folder to build to, since well... its a full new build.
+			//I typically name a complete new build by the date, but what if we done a build already today?
+			//Well then I just do [Date]-[Count], so add 1, 2, 3 etc to end of the folder name
+			//This finds the next available count 
 			while (folderExists)
 			{
-				//0
+				//First check
 				if (count == 0)
 				{
 					if (Directory.Exists($"{buildFolder}{buildFolderName}/"))
 					{
 						Debug.Log("Build for today already exists!");
-						//The directory already exists, we have a build done already today
+
+						//The directory already exists, we have a build done already today, so find the next count available
 						count++;
 					}
 					else
 					{
-						//No build for today
+						//No build for today, we can just use the date as the name
 						folderExists = false;
 						continue;
 					}
 				}
 
-				//It exists
+				//The count already exist for today
 				if (Directory.Exists($"{buildFolder}{buildFolderName}-{count}/"))
-				{
 					count++;
-				}
 				else
 				{
 					buildFolderName += $"-{count}";
@@ -192,8 +202,10 @@ namespace VoltBuilder
 				}
 			}
 
+			//Pre create the directory
 			Directory.CreateDirectory($"{buildFolder}{buildFolderName}/");
 
+			//Carry on with a new build, except to our new, empty folder
 			DoGameBuild(buildFolder, $"{buildFolderName}/", projectName, false);
 		}
 
