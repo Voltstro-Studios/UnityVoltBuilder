@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEditorInternal;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace VoltBuilder
 {
 	public class BuildTool : EditorWindow
 	{
-		private ReorderableList scenesToBuildList;
-
 		private string projectName;
 
 		private ISceneSettings sceneSettings;
@@ -29,7 +25,8 @@ namespace VoltBuilder
 			if (inputName != projectName)
 			{
 				projectName = inputName;
-				SaveSettings();
+				ConfigManager.Config.ProjectName = inputName;
+				ConfigManager.SaveConfig();
 			}
 
 			EditorGUILayout.Space();
@@ -47,52 +44,15 @@ namespace VoltBuilder
 			sceneSettings = new DefaultSceneSettings();
 			buildSettings = new DefaultBuildSettings();
 			gameBuilder = new DefaultGameBuild();
-		
-			ReloadScenes();
 
-			LoadSettings();
-		}
-
-		#region Config Mangement
-
-		/// <summary>
-		/// Saves settings
-		/// </summary>
-		public void SaveSettings()
-		{
-			ConfigManager.Config.ProjectName = projectName;
-			ConfigManager.Config.Scenes = (List<Scene>)scenesToBuildList.list;
-			ConfigManager.SaveConfig();
-		}
-
-		/// <summary>
-		/// Loads settings
-		/// </summary>
-		public void LoadSettings()
-		{
 			projectName = ConfigManager.Config.ProjectName;
-			scenesToBuildList.list = ConfigManager.Config.Scenes;
 		}
-
-		#endregion
 
 		#region Scene Setting Stuff
-
-		/// <summary>
-		/// Reloads scene list
-		/// </summary>
-		public void ReloadScenes()
-		{
-			scenesToBuildList = sceneSettings.CreateScenesList();
-
-			scenesToBuildList.onReorderCallback += list => SaveSettings();
-		}
 
 		private void DrawSceneSettings()
 		{
 			EditorGUILayout.LabelField("Scene Settings", EditorStyles.boldLabel);
-			scenesToBuildList.DoLayoutList();
-
 			sceneSettings.DrawSceneSettings(this);
 		}
 

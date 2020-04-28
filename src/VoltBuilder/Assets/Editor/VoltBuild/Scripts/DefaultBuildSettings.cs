@@ -25,7 +25,7 @@ namespace VoltBuilder
 
 				if (GUILayout.Button("Save Settings"))
 				{
-					buildTool.SaveSettings();
+					ConfigManager.SaveConfig();
 				}
 			}
 			else

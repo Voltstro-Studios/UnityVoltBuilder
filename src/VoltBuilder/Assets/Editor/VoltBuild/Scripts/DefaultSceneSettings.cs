@@ -8,8 +8,37 @@ namespace VoltBuilder
 {
 	public class DefaultSceneSettings : ISceneSettings
 	{
-		/// <inheritdoc/>
-		public Scene[] GetAllScenes()
+		private ReorderableList sceneList;
+
+		public DefaultSceneSettings()
+		{
+			sceneList = CreateScenesList();
+		}
+
+		private ReorderableList CreateScenesList()
+		{
+			ReorderableList list = new ReorderableList(ConfigManager.Config.Scenes, typeof(Scene), true, true, false, false)
+			{
+				drawHeaderCallback = rect =>
+				{
+					EditorGUI.LabelField(rect, "Scenes");
+				},
+				drawElementCallback = (rect, index, active, focused) =>
+				{
+					EditorGUI.LabelField(rect, (sceneList.list as List<Scene>)?[index].SceneName);
+				},
+				onReorderCallback = reorderableList =>
+				{
+					ConfigManager.Config.Scenes = (List<Scene>)reorderableList.list;
+					ConfigManager.SaveConfig();
+				}
+			};
+
+			sceneList = list;
+			return list;
+		}
+
+		private Scene[] GetAllEnabledScenes()
 		{
 			List<Scene> scenes = new List<Scene>();
 			foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
@@ -27,34 +56,22 @@ namespace VoltBuilder
 			return scenes.ToArray();
 		}
 
-		/// <inheritdoc/>
-		public ReorderableList CreateScenesList()
+		private void ReloadScenes()
 		{
-			ReorderableList list = new ReorderableList(GetAllScenes().ToList(), typeof(string), true, true, false, false)
-			{
-				drawHeaderCallback = rect =>
-				{
-					EditorGUI.LabelField(rect, "Scenes");
-				},
-				drawElementCallback = (rect, index, active, focused) =>
-				{
-					EditorGUI.LabelField(rect, ConfigManager.Config.Scenes[index].SceneName);
-				}
-			};
-
-			return list;
+			sceneList.list = GetAllEnabledScenes().ToList();
+			ConfigManager.Config.Scenes = (List<Scene>)sceneList.list;
+			ConfigManager.SaveConfig();
 		}
 
 		/// <inheritdoc/>
 		public void DrawSceneSettings(BuildTool buildTool)
 		{
+			sceneList.DoLayoutList();
+
 			GUILayout.BeginHorizontal();
 
 			if (GUILayout.Button("Reload Scene List"))
-			{
-				buildTool.ReloadScenes();
-				buildTool.SaveSettings();
-			}
+				ReloadScenes();
 
 			if (GUILayout.Button("Build Settings"))
 				EditorWindow.GetWindow(System.Type.GetType("UnityEditor.BuildPlayerWindow,UnityEditor"), true);
