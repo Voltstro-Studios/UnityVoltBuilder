@@ -14,12 +14,12 @@
     "$values": [
       {
         "$type": "VoltBuilder.Scene, VoltBuilder",
-        "SceneName": "SampleScene.unity",
+        "SceneName": "SampleScene",
         "SceneLocation": "Assets/Scenes/SampleScene.unity"
       },
       {
         "$type": "VoltBuilder.Scene, VoltBuilder",
-        "SceneName": "Scene2.unity",
+        "SceneName": "Scene2",
         "SceneLocation": "Assets/Scenes/Scene2.unity"
       }
     ]

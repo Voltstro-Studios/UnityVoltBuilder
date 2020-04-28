@@ -47,7 +47,7 @@ namespace VoltBuilder
 				{
 					scenes.Add(new Scene
 					{
-						SceneName = scene.path.Substring(scene.path.LastIndexOf('/') + 1),
+						SceneName = scene.path.Substring(scene.path.LastIndexOf('/') + 1).Replace(".unity", ""),
 						SceneLocation = scene.path
 					});
 				}
