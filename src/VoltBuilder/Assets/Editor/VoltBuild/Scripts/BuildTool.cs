@@ -14,7 +14,7 @@ namespace VoltBuilder
 		[MenuItem("Tools/Volt Build/Build Tool")]
 		public static void ShowWindow()
 		{
-			GetWindow(typeof(BuildTool));
+			GetWindow(typeof(BuildTool), false, "Volt Build Tool");
 		}
 
 		private void OnGUI()
