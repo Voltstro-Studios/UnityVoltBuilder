@@ -6,7 +6,22 @@
     "DevBuild": false,
     "CopyPDBFiles": false,
     "ServerBuild": false,
-    "ZipFiles": false
+    "ZipFiles": false,
+    "FilesToCopyOnBuild": {
+      "$type": "System.Collections.Generic.List`1[[VoltBuilder.FileToCopy, VoltBuilder]], mscorlib",
+      "$values": [
+        {
+          "$type": "VoltBuilder.FileToCopy, VoltBuilder",
+          "WhatFileToCopy": "Assets/test.txt",
+          "CopyToWhere": "test.txt"
+        },
+        {
+          "$type": "VoltBuilder.FileToCopy, VoltBuilder",
+          "WhatFileToCopy": "../../LICENSE",
+          "CopyToWhere": "License/LICENSE.txt"
+        }
+      ]
+    }
   },
   "ProjectName": "VoltBuilder",
   "Scenes": {
