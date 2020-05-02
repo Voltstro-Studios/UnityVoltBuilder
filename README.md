@@ -64,11 +64,11 @@ Other editor version may not work either, but as long as Newtonsoft.Json works a
 
 This tool is designed to be modfied, you can still use the default one if you want!
 
-Like I said before, the build tool is broken down into 3 sections using interfaces. You can modify what class the tool will use in `BuildTool.cs` under OnEnabled.
+Like I said before, the build tool is broken down into 3 sections using interfaces. You can modify what class the tool will use in `BuildTool.cs` under OnEnabled().
 
 ## Using a custom config
 
-You may want to use a custom build config to save settings that you need in your build settings.For example, you might want to save if you want to copy the build or not.
+You may want to use a custom build config to save settings that you need in your build settings. For example, you might want to save if you want to copy the build or not.
 
 To use a custom build config, go to `ConfigManager.cs` and in NewConfig() change the BuildOptions to use your own class that implements `IBuildConfig`.
 
@@ -82,7 +82,7 @@ if(ConfigManager.GetBuildConfig(out MyExampleConfig config))
 ```
 
 # Authors
-Voltstro – Initial Work – [Voltstro](https://github.com/Voltstro)
+Voltstro – *Initial Work* – [Voltstro](https://github.com/Voltstro)
 
 # License
 This project is licensed under the Apache-2.0 license – see the [LICENSE](/LICENSE) file for details.
