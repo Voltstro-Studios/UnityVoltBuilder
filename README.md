@@ -32,7 +32,7 @@ If you already have Newtonsoft.Json included in your project, make sure to de-se
 
 ## Install the package
 
-Download the latest package release from [releases](/releases), and import the package like a normal Unity package.
+Download the latest package release from [releases](https://github.com/Voltstro/UnityVoltBuilderTool/releases), and import the package like a normal Unity package.
 
 Everything is put into the `Assets/Editor/VoltBuild` folder.
 The default gamebuilder module includes zip functionality, using the default C# `System.IO.Compression`. By default, Unity doesn’t include this, however you can make it include it by adding/modifying the `csc.rsp` file. The package does come with this file included, however if you already have a `csc.rsp` file in your project, you will need to modify it and add:
