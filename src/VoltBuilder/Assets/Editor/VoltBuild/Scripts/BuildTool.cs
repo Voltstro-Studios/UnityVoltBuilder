@@ -7,7 +7,7 @@ namespace VoltBuilder
 	{
 		private ISceneSettings sceneSettings;
 		private IBuildSettings buildSettings;
-		private IGameBuild gameBuilder;
+		private IGameBuilder gameBuilder;
 
 		[MenuItem("Tools/Volt Build/Build Tool")]
 		public static void ShowWindow()
@@ -20,7 +20,7 @@ namespace VoltBuilder
 			//Change these to use the classes you want
 			sceneSettings = new DefaultSceneSettings();
 			buildSettings = new DefaultBuildSettings();
-			gameBuilder = new DefaultGameBuild();
+			gameBuilder = new DefaultGameBuilder();
 		}
 
 		private void OnGUI()

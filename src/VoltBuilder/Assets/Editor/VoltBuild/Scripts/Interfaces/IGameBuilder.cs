@@ -3,7 +3,7 @@ using UnityEditor.Build.Reporting;
 
 namespace VoltBuilder
 {
-	public interface IGameBuild
+	public interface IGameBuilder
 	{
 		/// <summary>
 		/// Draws asset bundle GUI controls

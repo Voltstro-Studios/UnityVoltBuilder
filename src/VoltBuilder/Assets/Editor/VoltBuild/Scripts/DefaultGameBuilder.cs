@@ -10,7 +10,7 @@ using Debug = UnityEngine.Debug;
 
 namespace VoltBuilder
 {
-	public class DefaultGameBuild : IGameBuild
+	public class DefaultGameBuilder : IGameBuilder
 	{
 		/// <inheritdoc/>
 		public void DrawAssetBundleCommands()
