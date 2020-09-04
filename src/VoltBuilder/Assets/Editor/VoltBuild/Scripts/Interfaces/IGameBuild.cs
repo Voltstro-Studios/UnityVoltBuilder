@@ -8,8 +8,7 @@ namespace VoltBuilder
 		/// <summary>
 		/// Draws asset bundle GUI controls
 		/// </summary>
-		/// <param name="buildTool"></param>
-		void DrawAssetBundleCommands(BuildTool buildTool);
+		void DrawAssetBundleCommands();
 
 		/// <summary>
 		/// Builds the bundles
@@ -22,8 +21,7 @@ namespace VoltBuilder
 		/// <summary>
 		/// Draw build game GUI controls
 		/// </summary>
-		/// <param name="buildTool"></param>
-		void DrawBuildGameCommands(BuildTool buildTool);
+		void DrawBuildGameCommands();
 
 		/// <summary>
 		/// Builds the game

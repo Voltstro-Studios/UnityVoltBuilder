@@ -64,7 +64,7 @@ namespace VoltBuilder
 		}
 
 		/// <inheritdoc/>
-		public void DrawSceneSettings(BuildTool buildTool)
+		public void DrawSceneSettings()
 		{
 			sceneList.DoLayoutList();
 

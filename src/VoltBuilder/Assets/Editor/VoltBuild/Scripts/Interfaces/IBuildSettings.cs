@@ -5,7 +5,6 @@
 		/// <summary>
 		/// Draws build settings GUI
 		/// </summary>
-		/// <param name="buildTool"></param>
-		void DrawBuildSettings(BuildTool buildTool);
+		void DrawBuildSettings();
 	}
 }

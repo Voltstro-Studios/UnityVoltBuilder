@@ -5,6 +5,6 @@
 		/// <summary>
 		/// Draws other scene settings that you might want
 		/// </summary>
-		void DrawSceneSettings(BuildTool buildTool);
+		void DrawSceneSettings();
 	}
 }

@@ -13,7 +13,7 @@ namespace VoltBuilder
 	public class DefaultGameBuild : IGameBuild
 	{
 		/// <inheritdoc/>
-		public void DrawAssetBundleCommands(BuildTool buildTool)
+		public void DrawAssetBundleCommands()
 		{
 			EditorGUILayout.LabelField("Asset Bundles");
 			GUILayout.BeginHorizontal();
@@ -43,7 +43,7 @@ namespace VoltBuilder
 		}
 
 		/// <inheritdoc/>
-		public void DrawBuildGameCommands(BuildTool buildTool)
+		public void DrawBuildGameCommands()
 		{
 			//Build game commands
 			GUILayout.BeginHorizontal();
