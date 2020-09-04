@@ -5,9 +5,9 @@ namespace VoltBuilder
 {
 	public class BuildTool : EditorWindow
 	{
-		private ISceneSettings sceneSettings;
-		private IBuildSettings buildSettings;
-		private IGameBuilder gameBuilder;
+		public static ISceneSettings SceneSettings;
+		public static IBuildSettings BuildSettings;
+		public static IGameBuilder GameBuilder;
 
 		[MenuItem("Tools/Volt Build/Build Tool")]
 		public static void ShowWindow()
@@ -17,10 +17,12 @@ namespace VoltBuilder
 
 		private void OnEnable()
 		{
-			//Change these to use the classes you want
-			sceneSettings = new DefaultSceneSettings();
-			buildSettings = new DefaultBuildSettings();
-			gameBuilder = new DefaultGameBuilder();
+			if(SceneSettings == null)
+				SceneSettings = new DefaultSceneSettings();
+			if(BuildSettings == null)
+				BuildSettings = new DefaultBuildSettings();
+			if(GameBuilder == null)
+				GameBuilder = new DefaultGameBuilder();
 		}
 
 		private void OnGUI()
@@ -49,7 +51,7 @@ namespace VoltBuilder
 		private void DrawSceneSettings()
 		{
 			EditorGUILayout.LabelField("Scene Settings", EditorStyles.boldLabel);
-			sceneSettings.DrawSceneSettings();
+			SceneSettings.DrawSceneSettings();
 		}
 
 		#endregion
@@ -61,7 +63,7 @@ namespace VoltBuilder
 			EditorGUILayout.LabelField("Build Settings", EditorStyles.boldLabel);
 			EditorGUILayout.Space();
 
-			buildSettings.DrawBuildSettings();
+			BuildSettings.DrawBuildSettings();
 		}
 
 		#endregion
@@ -72,11 +74,11 @@ namespace VoltBuilder
 		{
 			EditorGUILayout.LabelField("Build Commands", EditorStyles.boldLabel);
 			EditorGUILayout.Space();
-			gameBuilder.DrawAssetBundleCommands();
+			GameBuilder.DrawAssetBundleCommands();
 
 			EditorGUILayout.Space();
 			EditorGUILayout.LabelField("Build Game");
-			gameBuilder.DrawBuildGameCommands();
+			GameBuilder.DrawBuildGameCommands();
 		}
 
 		/// <summary>

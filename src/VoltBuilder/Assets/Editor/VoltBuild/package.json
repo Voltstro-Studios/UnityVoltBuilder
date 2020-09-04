@@ -5,9 +5,9 @@
   "unity": "2019.1",
   "description": "An in-editor, modular tool to make Unity game builds easier and more convenient",
   "author": {
-      "name": "Voltstro",
-      "email": "me@voltstro.dev",
-      "url": "https://voltstro.dev"
+    "name": "Voltstro",
+    "email": "me@voltstro.dev",
+    "url": "https://voltstro.dev"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,12 @@
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "2.0.0"
   },
-  "type": "tool"
+  "type": "tool",
+  "samples": [
+    {
+      "displayName": "Override Example",
+      "description": "Shows how to override the interfaces with an editor startup script.",
+      "path": "Samples~/OverrideSample"
+    }
+  ]
 }
