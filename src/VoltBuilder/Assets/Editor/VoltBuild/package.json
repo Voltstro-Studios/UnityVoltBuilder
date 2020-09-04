@@ -1,0 +1,20 @@
+{
+  "name": "dev.voltstro.voltbuildertool",
+  "displayName": "Volt Builder Tool",
+  "version": "1.1.0",
+  "unity": "2019.1",
+  "description": "An in-editor, modular tool to make Unity game builds easier and more convenient",
+  "author": {
+      "name": "Voltstro",
+      "email": "me@voltstro.dev",
+      "url": "https://voltstro.dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Voltstro/UnityVoltBuilderTool.git"
+  },
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "2.0.0"
+  },
+  "type": "tool"
+}
