@@ -1,5 +1,6 @@
 # UnityVoltBuilderTool
 
+[![Build project](https://github.com/Voltstro/UnityVoltBuilderTool/workflows/Build%20project/badge.svg)](https://github.com/Voltstro/UnityVoltBuilderTool/actions)
 [![License](https://img.shields.io/github/license/voltstro/UnityVoltBuilderTool.svg)](/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-Voltstro-7289da.svg?logo=discord)](https://discord.voltstro.dev) 
 [![YouTube](https://img.shields.io/badge/Youtube-Voltstro-red.svg?logo=youtube)](https://www.youtube.com/Voltstro)
@@ -27,24 +28,24 @@ Please read all of the install instructions before installing!
 
 ## Dependencies
 
-This tool does require Newtonsoft.Json to be in your project, and by default comes with the library included in the package, with it set not to be included with the build.
-If you already have Newtonsoft.Json included in your project, make sure to de-selected it in the package import window!
+- This tool does require Newtonsoft.Json to be in your project, and by default uses the [Unity package version](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@2.0/manual/index.html) of it. If you already have Newtonsoft.Json installed as a plugin you will need to remove it and use the package version.
 
-## Install the package
+- By default, VoltBuilder has .zip support for the builds, so it includes `System.IO.Compression` and `System.IO.Compression.FileSystem` as plugins in the package. If you have these in your project you may need to remove them.
 
-Download the latest package release from [releases](https://github.com/Voltstro/UnityVoltBuilderTool/releases), and import the package like a normal Unity package.
+## Installing the package
 
-Everything is put into the `Assets/Editor/VoltBuild` folder.
-The default gamebuilder module includes zip functionality, using the default C# `System.IO.Compression`. By default, Unity doesn’t include this, however you can make it include it by adding/modifying the `csc.rsp` file. The package does come with this file included, however if you already have a `csc.rsp` file in your project, you will need to modify it and add:
+There are two ways to install this, you can either install it via the package manager (recommended way) or the old school way via the [releases](/releases) section.
 
-```
--r:System.IO.Compression.dll
--r:System.IO.Compression.FileSystem.dll
-```
+To install it via the package manager you will need to:
+
+1. Open up the package manager via Windows **->** Package Manager
+2. Click on the little + sign **->** Add package from git URL...
+3. Type `https://github.com/Voltstro/UnityVoltBuilderTool.git?path=/src/VoltBuilder/Assets/Editor/VoltBuild` and add it
+4. Unity will now download and install the package
 
 # Using the tool
 
-To use the tool, go to Tools **->** Volt Build **->** Build Tool. It will open up a screen looking like this: (default)
+To use the tool, go to Tools **->** Volt Build **->** Build Tool. It will open up a screen that looks like this: (default)
 
 ![Preview](preview.jpg)
 
@@ -54,23 +55,21 @@ If you are using the default build config and default builder, you can change wh
 
 ## Supported Versions
 
-This tool was built and tested for Unity 2019.3 on Windows. 
+This tool was built and tested for Unity 2019.4 on Windows. 
 
-Other OSes should work; however, no testing has been done on them.
-
-Other editor version may not work either, but as long as Newtonsoft.Json works and those IO.Compression dlls are included, this tool *should* work.
+Other OSes should work; however, no testing has been done on them. The only thing that will not work on other Oses is the 'Open Build Folder' button
 
 ## Modifying the tool for your project
 
-This tool is designed to be modfied, you can still use the default one if you want!
+This tool is designed to be modified, you can still use the default one if you want!
 
-Like I said before, the build tool is broken down into 3 sections using interfaces. You can modify what class the tool will use in `BuildTool.cs` under OnEnabled().
+Like I said before, the build tool is broken down into 3 sections using interfaces. You can change what class that implements the interface required. An example is included on how to do that in the package. You can import the sample by going to the package in the package manager, and importing the sample under the 'Samples' section.
 
 ## Using a custom config
 
 You may want to use a custom build config to save settings that you need in your build settings. For example, you might want to save if you want to copy the build or not.
 
-To use a custom build config, go to `ConfigManager.cs` and in NewConfig() change the BuildOptions to use your own class that implements `IBuildConfig`.
+You can change it via change the variable `ConfigManager.Config` to a class that implements `Config`.
 
 After that you can use `ConfigManager.GetBuildConfig(out T config)` to get a custom build config. E.G:
 
