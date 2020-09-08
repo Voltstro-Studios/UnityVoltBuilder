@@ -40,7 +40,7 @@ To install it via the package manager you will need to:
 
 1. Open up the package manager via Windows **->** Package Manager
 2. Click on the little + sign **->** Add package from git URL...
-3. Type `https://github.com/Voltstro/UnityVoltBuilderTool.git?path=/src/VoltBuilder/Assets/Editor/VoltBuild` and add it
+3. Type `https://github.com/VoltUnityPackages/UnityVoltBuilderTool.git?path=/src/VoltBuilder/Assets/Editor/VoltBuild` and add it
 4. Unity will now download and install the package
 
 # Using the tool
