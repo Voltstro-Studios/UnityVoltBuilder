@@ -17,7 +17,7 @@ namespace Voltstro.UnityBuilder.Actions
 				.SelectMany(s => s.GetTypes())
 				.Where(p => typeof(IBuildAction).IsAssignableFrom(p) && !p.IsInterface)
 				.ToList();
-			dropdownOptions = availableActions.Select(availableAction => availableAction.FullName).ToArray();
+			dropdownOptions = availableActions.Select(availableAction => availableAction.Name).ToArray();
 
 			foreach (string buildAction in SettingsManager.BuildActions)
 			{
@@ -99,6 +99,8 @@ namespace Voltstro.UnityBuilder.Actions
 						if (activeBuildAction.Value == null)
 						{
 							EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!", MessageType.Error);
+							if (GUILayout.Button("Delete"))
+								Instance.DeleteBuildAction(activeBuildAction.Key);
 							continue;
 						}
 
@@ -129,7 +131,7 @@ namespace Voltstro.UnityBuilder.Actions
 				return;
 
 			//First, get if that action still exists
-			Type actionType = availableActions.FirstOrDefault(x => x.FullName == action);
+			Type actionType = availableActions.FirstOrDefault(x => x.Name == action);
 			if (actionType == null)
 			{
 				activeBuildActions.Add(action, null);
