@@ -1,6 +1,6 @@
 {
   "name": "dev.voltstro.voltbuildertool",
-  "displayName": "Volt Builder Tool",
+  "displayName": "Volt Unity Builder",
   "version": "3.0.0",
   "unity": "2019.1",
   "description": "An in-editor, modular tool to make Unity game builds easier and more convenient",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Voltstro/UnityVoltBuilderTool.git"
+    "url": "https://github.com/VoltUnityPackages/VoltUnityBuilder.git"
   },
   "dependencies": {
     "com.unity.settings-manager": "1.0.3"
