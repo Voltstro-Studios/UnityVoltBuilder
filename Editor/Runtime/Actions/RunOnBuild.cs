@@ -19,6 +19,8 @@ public class RunOnBuild : IBuildAction
 			SettingsManager.Instance.Set(SettingsKey, buildOnRun);
 			SettingsManager.Instance.Save();
 		}
+
+		EditorGUILayout.Space();
 	}
 
 	public void OnBeforeBuild(string buildLocation)

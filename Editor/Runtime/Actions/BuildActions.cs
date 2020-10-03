@@ -70,23 +70,34 @@ internal class BuildActions
 
 			EditorGUILayout.EndHorizontal();
 
-			//Do OnGUI for each option
-			foreach (KeyValuePair<string, IBuildAction> activeBuildAction in activeBuildActions)
+			try
 			{
-				EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
-
-				if (activeBuildAction.Value == null)
+				//Do OnGUI for each option
+				foreach (KeyValuePair<string, IBuildAction> activeBuildAction in activeBuildActions)
 				{
-					EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!", MessageType.Error);
-					continue;
+					EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
+
+					if (activeBuildAction.Value == null)
+					{
+						EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!", MessageType.Error);
+						continue;
+					}
+
+					//Draw the build action's OnGUI
+					EditorGUILayout.LabelField(activeBuildAction.Key, GUIStyles.DropdownHeaderStyle);
+					activeBuildAction.Value.OnGUI();
+
+					//Delete button
+					if (GUILayout.Button("Delete"))
+						DeleteBuildAction(activeBuildAction.Key);
+
+					EditorGUILayout.EndVertical();
 				}
-
-				EditorGUILayout.LabelField(activeBuildAction.Key, GUIStyles.DropdownHeaderStyle);
-				activeBuildAction.Value.OnGUI();
-
-				EditorGUILayout.EndVertical();
 			}
-
+			catch(InvalidOperationException)
+			{
+			}
+			
 			EditorGUILayout.EndVertical();
 		}
 	}
@@ -110,6 +121,20 @@ internal class BuildActions
 
 		List<string> currentBuildActions = SettingsManager.BuildActions;
 		currentBuildActions.Add(action);
+		SettingsManager.BuildActions = currentBuildActions;
+	}
+
+	private void DeleteBuildAction(string action)
+	{
+		if (!activeBuildActions.ContainsKey(action))
+		{
+			return;
+		}
+
+		activeBuildActions.Remove(action);
+
+		List<string> currentBuildActions = SettingsManager.BuildActions;
+		currentBuildActions.Remove(action);
 		SettingsManager.BuildActions = currentBuildActions;
 	}
 }
