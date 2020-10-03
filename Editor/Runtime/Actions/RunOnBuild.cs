@@ -2,64 +2,67 @@
 using UnityEditor;
 using Voltstro.UnityBuilder.Settings;
 
-public class RunOnBuild : IBuildAction
+namespace Voltstro.UnityBuilder.Actions
 {
-	private const string SettingsRunOnBuild = "RunOnBuild";
-	private const string SettingArguments = "RunOnBuildArguments";
-
-	public void OnGUI()
+	public class RunOnBuild : IBuildAction
 	{
-		RunOnBuildSetting = EditorGUILayout.Toggle("Run on Build", RunOnBuildSetting);
-		RunOnBuildArguments = EditorGUILayout.TextField("Arguments", RunOnBuildArguments);
+		private const string SettingsRunOnBuild = "RunOnBuild";
+		private const string SettingArguments = "RunOnBuildArguments";
 
-		EditorGUILayout.Space();
-	}
-
-	public void OnBeforeBuild(string buildLocation)
-	{
-	}
-
-	public void OnAfterBuild(string buildLocation)
-	{
-		if(RunOnBuildSetting)
-			Process.Start(buildLocation, RunOnBuildArguments);
-	}
-
-	private bool RunOnBuildSetting
-	{
-		get
+		public void OnGUI()
 		{
-			if (!SettingsManager.Instance.ContainsKey<bool>(SettingsRunOnBuild))
+			RunOnBuildSetting = EditorGUILayout.Toggle("Run on Build", RunOnBuildSetting);
+			RunOnBuildArguments = EditorGUILayout.TextField("Arguments", RunOnBuildArguments);
+
+			EditorGUILayout.Space();
+		}
+
+		public void OnBeforeBuild(string buildLocation)
+		{
+		}
+
+		public void OnAfterBuild(string buildLocation)
+		{
+			if (RunOnBuildSetting)
+				Process.Start(buildLocation, RunOnBuildArguments);
+		}
+
+		private bool RunOnBuildSetting
+		{
+			get
 			{
-				SettingsManager.Instance.Set(SettingsRunOnBuild, true);
+				if (!SettingsManager.Instance.ContainsKey<bool>(SettingsRunOnBuild))
+				{
+					SettingsManager.Instance.Set(SettingsRunOnBuild, true);
+					SettingsManager.Instance.Save();
+				}
+
+				return SettingsManager.Instance.Get<bool>(SettingsRunOnBuild);
+			}
+			set
+			{
+				SettingsManager.Instance.Set(SettingsRunOnBuild, value);
 				SettingsManager.Instance.Save();
 			}
-
-			return SettingsManager.Instance.Get<bool>(SettingsRunOnBuild);
 		}
-		set
-		{
-			SettingsManager.Instance.Set(SettingsRunOnBuild, value);
-			SettingsManager.Instance.Save();
-		}
-	}
 
-	private string RunOnBuildArguments
-	{
-		get
+		private string RunOnBuildArguments
 		{
-			if (!SettingsManager.Instance.ContainsKey<bool>(SettingArguments))
+			get
 			{
-				SettingsManager.Instance.Set(SettingArguments, "");
+				if (!SettingsManager.Instance.ContainsKey<bool>(SettingArguments))
+				{
+					SettingsManager.Instance.Set(SettingArguments, "");
+					SettingsManager.Instance.Save();
+				}
+
+				return SettingsManager.Instance.Get<string>(SettingArguments);
+			}
+			set
+			{
+				SettingsManager.Instance.Set(SettingArguments, value);
 				SettingsManager.Instance.Save();
 			}
-
-			return SettingsManager.Instance.Get<string>(SettingArguments);
-		}
-		set
-		{
-			SettingsManager.Instance.Set(SettingArguments, value);
-			SettingsManager.Instance.Save();
 		}
 	}
 }

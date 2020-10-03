@@ -1,21 +1,26 @@
 ﻿using UnityEditor;
+using Voltstro.UnityBuilder.Actions;
+using Voltstro.UnityBuilder.Build;
 
-public class BuildToolWindow : EditorWindow
+namespace Voltstro.UnityBuilder.GUI
 {
-	[MenuItem("Tools/Volt Build/Build Tool")]
-	public static void ShowWindow()
+	public class BuildToolWindow : EditorWindow
 	{
-		GetWindow(typeof(BuildToolWindow), false, "Volt Build Tool");
-	}
+		[MenuItem("Tools/Volt Build/Build Tool")]
+		public static void ShowWindow()
+		{
+			GetWindow(typeof(BuildToolWindow), false, "Volt Build Tool");
+		}
 
-	public void OnGUI()
-	{
-		//Main title
-		EditorGUILayout.LabelField("Volt Unity Build", GUIStyles.TitleStyle);
-		EditorGUILayout.Space(15f);
+		public void OnGUI()
+		{
+			//Main title
+			EditorGUILayout.LabelField("Volt Unity Build", GUIStyles.TitleStyle);
+			EditorGUILayout.Space(15f);
 
-		BuildSettings.DrawOptions();
-		BuildActions.DrawOptions();
-		GameBuilder.DrawOptions();
+			BuildSettings.DrawOptions();
+			BuildActions.DrawOptions();
+			GameBuilder.DrawOptions();
+		}
 	}
 }

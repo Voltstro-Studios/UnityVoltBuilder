@@ -1,8 +1,11 @@
-﻿public interface IBuildAction
+﻿namespace Voltstro.UnityBuilder.Actions
 {
-	void OnGUI();
+	public interface IBuildAction
+	{
+		void OnGUI();
 
-	void OnBeforeBuild(string buildLocation);
+		void OnBeforeBuild(string buildLocation);
 
-	void OnAfterBuild(string buildLocation);
+		void OnAfterBuild(string buildLocation);
+	}
 }
