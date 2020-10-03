@@ -138,6 +138,9 @@ internal class BuildActions
 		activeBuildActions.Add(action, buildAction);
 
 		List<string> currentBuildActions = SettingsManager.BuildActions;
+		if(currentBuildActions.Contains(action))
+			return;
+
 		currentBuildActions.Add(action);
 		SettingsManager.BuildActions = currentBuildActions;
 	}
