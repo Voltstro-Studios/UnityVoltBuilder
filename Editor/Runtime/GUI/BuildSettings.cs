@@ -47,6 +47,5 @@ internal static class BuildSettings
 	private static void DrawHeader(string header)
 	{
 		GUILayout.Label(header, GUIStyles.DropdownHeaderStyle);
-		EditorGUILayout.Space();
 	}
 }

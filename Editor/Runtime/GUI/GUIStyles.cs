@@ -33,11 +33,10 @@ internal class GUIStyles
 
 	private static GUIStyles instance;
 
-	private GUIStyle titleStyle;
-
-	private GUIStyle dropdownButtonStyle;
-	private GUIStyle dropdownContentStyle;
-	private GUIStyle dropdownHeaderStyle;
+	private readonly GUIStyle titleStyle;
+	private readonly GUIStyle dropdownButtonStyle;
+	private readonly GUIStyle dropdownContentStyle;
+	private readonly GUIStyle dropdownHeaderStyle;
 
 	#region Internal Getters
 

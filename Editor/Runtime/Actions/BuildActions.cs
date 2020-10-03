@@ -38,11 +38,11 @@ internal class BuildActions
 		}
 	}
 
-	private List<Type> availableActions;
-	private Dictionary<string, IBuildAction> activeBuildActions;
-	private string[] dropdownOptions;
-
 	private static bool buildActions;
+
+	private readonly List<Type> availableActions;
+	private readonly Dictionary<string, IBuildAction> activeBuildActions;
+	private readonly string[] dropdownOptions;
 
 	internal static void RunPreActions(string buildLocation)
 	{
