@@ -21,6 +21,8 @@ public class BuildToolWindow : EditorWindow
 		BuildSettings.DrawOptions();
 		EditorGUILayout.Space();
 		BuildActions.Instance.DrawOptions();
+		EditorGUILayout.Space();
+		GameBuilder.DrawOptions();
 	}
 
 	private void DrawSceneSettings()

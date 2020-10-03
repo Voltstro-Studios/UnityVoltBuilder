@@ -44,6 +44,22 @@ internal class BuildActions
 
 	private bool buildActions;
 
+	internal static void RunPreActions(string buildLocation)
+	{
+		foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
+		{
+			activeBuildAction.Value?.OnBeforeBuild(buildLocation);
+		}
+	}
+
+	internal static void RunPostActions(string buildLocation)
+	{
+		foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
+		{
+			activeBuildAction.Value?.OnAfterBuild(buildLocation);
+		}
+	}
+
 	internal void DrawOptions()
 	{
 		GUIStyles.DrawDropdownButton("Build Actions", ref buildActions);

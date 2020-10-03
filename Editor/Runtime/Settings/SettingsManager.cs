@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEditor;
 
 namespace Voltstro.UnityBuilder.Settings
@@ -156,6 +155,24 @@ namespace Voltstro.UnityBuilder.Settings
 			set
 			{
 				settings.Set("BuildActions", value);
+				settings.Save();
+			}
+		}
+
+		internal static List<string> Scenes
+		{
+			get
+			{
+				if (settings.ContainsKey<List<string>>("Scenes")) return settings.Get<List<string>>("Scenes");
+
+				settings.Set("Scenes", new List<string>());
+				settings.Save();
+
+				return settings.Get<List<string>>("Scenes");
+			}
+			set
+			{
+				settings.Set("Scenes", value);
 				settings.Save();
 			}
 		}
