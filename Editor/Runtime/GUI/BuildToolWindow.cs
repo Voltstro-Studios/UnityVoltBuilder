@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-using Voltstro.UnityBuilder.Settings;
+﻿using UnityEditor;
 
 public class BuildToolWindow : EditorWindow
 {

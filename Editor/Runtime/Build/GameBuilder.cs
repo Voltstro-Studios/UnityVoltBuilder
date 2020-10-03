@@ -108,13 +108,24 @@ public static class GameBuilder
 		if (SettingsManager.ServerBuild)
 			options |= BuildOptions.EnableHeadlessMode;
 
-		//Dev build
-		if (SettingsManager.DevelopmentBuild)
-			options |= BuildOptions.Development;
-
 		//Copy PDB files
 		if(SettingsManager.CopyPdbFiles)
 			EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles", SettingsManager.CopyPdbFiles ? "true" : "false");
+
+		//Dev build
+		if (SettingsManager.DevelopmentBuild)
+		{
+			options |= BuildOptions.Development;
+
+			if (SettingsManager.AutoconnectProfiler)
+				options |= BuildOptions.ConnectWithProfiler;
+
+			if (SettingsManager.DeepProfiling)
+				options |= BuildOptions.EnableDeepProfilingSupport;
+
+			if (SettingsManager.ScriptDebugging)
+				options |= BuildOptions.AllowDebugging;
+		}
 
 		//Scripts only
 		if (scriptsOnly)

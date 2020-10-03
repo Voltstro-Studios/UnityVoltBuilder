@@ -29,6 +29,15 @@ internal static class BuildSettings
 			DrawHeader("Build Development Settings");
 			SettingsManager.DevelopmentBuild = EditorGUILayout.Toggle("Development Build", SettingsManager.DevelopmentBuild);
 
+			if (SettingsManager.DevelopmentBuild)
+			{
+				SettingsManager.AutoconnectProfiler =
+					EditorGUILayout.Toggle("Autoconnect Profiler", SettingsManager.AutoconnectProfiler);
+				SettingsManager.DeepProfiling = EditorGUILayout.Toggle("Deep Profiling", SettingsManager.DeepProfiling);
+				SettingsManager.ScriptDebugging =
+					EditorGUILayout.Toggle("Script Debugging", SettingsManager.ScriptDebugging);
+			}
+
 			EditorGUILayout.EndVertical();
 		}
 

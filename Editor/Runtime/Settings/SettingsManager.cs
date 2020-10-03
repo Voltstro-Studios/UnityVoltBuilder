@@ -139,6 +139,60 @@ namespace Voltstro.UnityBuilder.Settings
 			}
 		}
 
+		internal static bool AutoconnectProfiler
+		{
+			get
+			{
+				if (Instance.ContainsKey<bool>("AutoconnectProfiler")) return Instance.Get<bool>("AutoconnectProfiler");
+
+				Instance.Set("AutoconnectProfiler", false);
+				Instance.Save();
+
+				return Instance.Get<bool>("AutoconnectProfiler");
+			}
+			set
+			{
+				Instance.Set("AutoconnectProfiler", value);
+				Instance.Save();
+			}
+		}
+
+		internal static bool DeepProfiling
+		{
+			get
+			{
+				if (Instance.ContainsKey<bool>("DeepProfiling")) return Instance.Get<bool>("DeepProfiling");
+
+				Instance.Set("DeepProfiling", false);
+				Instance.Save();
+
+				return Instance.Get<bool>("DeepProfiling");
+			}
+			set
+			{
+				Instance.Set("DeepProfiling", value);
+				Instance.Save();
+			}
+		}
+
+		internal static bool ScriptDebugging
+		{
+			get
+			{
+				if (Instance.ContainsKey<bool>("ScriptDebugging")) return Instance.Get<bool>("ScriptDebugging");
+
+				Instance.Set("ScriptDebugging", false);
+				Instance.Save();
+
+				return Instance.Get<bool>("ScriptDebugging");
+			}
+			set
+			{
+				Instance.Set("ScriptDebugging", value);
+				Instance.Save();
+			}
+		}
+
 		#endregion
 
 		internal static List<string> BuildActions
