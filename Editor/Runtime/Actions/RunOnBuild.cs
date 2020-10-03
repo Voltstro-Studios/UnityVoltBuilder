@@ -1,24 +1,16 @@
-﻿using UnityEditor;
+﻿using System.Diagnostics;
+using UnityEditor;
 using Voltstro.UnityBuilder.Settings;
 
 public class RunOnBuild : IBuildAction
 {
-	private const string SettingsKey = "RunOnBuild";
+	private const string SettingsRunOnBuild = "RunOnBuild";
+	private const string SettingArguments = "RunOnBuildArguments";
 
 	public void OnGUI()
 	{
-		if (!SettingsManager.Instance.ContainsKey<bool>(SettingsKey))
-		{
-			SettingsManager.Instance.Set(SettingsKey, true);
-			SettingsManager.Instance.Save();
-		}
-
-		bool buildOnRun = EditorGUILayout.Toggle("Run on Build", SettingsManager.Instance.Get<bool>(SettingsKey));
-		if (buildOnRun != SettingsManager.Instance.Get<bool>(SettingsKey))
-		{
-			SettingsManager.Instance.Set(SettingsKey, buildOnRun);
-			SettingsManager.Instance.Save();
-		}
+		RunOnBuildSetting = EditorGUILayout.Toggle("Run on Build", RunOnBuildSetting);
+		RunOnBuildArguments = EditorGUILayout.TextField("Arguments", RunOnBuildArguments);
 
 		EditorGUILayout.Space();
 	}
@@ -29,6 +21,45 @@ public class RunOnBuild : IBuildAction
 
 	public void OnAfterBuild(string buildLocation)
 	{
-		
+		if(RunOnBuildSetting)
+			Process.Start(buildLocation, RunOnBuildArguments);
+	}
+
+	private bool RunOnBuildSetting
+	{
+		get
+		{
+			if (!SettingsManager.Instance.ContainsKey<bool>(SettingsRunOnBuild))
+			{
+				SettingsManager.Instance.Set(SettingsRunOnBuild, true);
+				SettingsManager.Instance.Save();
+			}
+
+			return SettingsManager.Instance.Get<bool>(SettingsRunOnBuild);
+		}
+		set
+		{
+			SettingsManager.Instance.Set(SettingsRunOnBuild, value);
+			SettingsManager.Instance.Save();
+		}
+	}
+
+	private string RunOnBuildArguments
+	{
+		get
+		{
+			if (!SettingsManager.Instance.ContainsKey<bool>(SettingArguments))
+			{
+				SettingsManager.Instance.Set(SettingArguments, "");
+				SettingsManager.Instance.Save();
+			}
+
+			return SettingsManager.Instance.Get<string>(SettingArguments);
+		}
+		set
+		{
+			SettingsManager.Instance.Set(SettingArguments, value);
+			SettingsManager.Instance.Save();
+		}
 	}
 }
