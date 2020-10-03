@@ -51,7 +51,7 @@ namespace Voltstro.UnityBuilder.Settings
 			{
 				if (settings.ContainsKey<string>("BuildFolderNameStyle")) return settings.Get<string>("BuildFolderNameStyle");
 
-				settings.Set("BuildFolderNameStyle", "$PROJECT-yy-MM-dd");
+				settings.Set("BuildFolderNameStyle", "yy-MM-dd");
 				settings.Save();
 
 				return settings.Get<string>("BuildFolderNameStyle");

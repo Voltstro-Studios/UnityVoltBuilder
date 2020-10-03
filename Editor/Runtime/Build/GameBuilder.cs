@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -10,13 +11,33 @@ public static class GameBuilder
 {
 	internal static void DrawOptions()
 	{
+		EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
+
+		GUILayout.Label("Build Commands", GUIStyles.DropdownHeaderStyle);
+
+		EditorGUILayout.BeginHorizontal();
 		if (GUILayout.Button("Build Player"))
-		{
 			BuildGame($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}");
+		if(GUILayout.Button("Scripts Only"))
+			BuildGame($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}", true);
+		EditorGUILayout.EndHorizontal();
+
+		EditorGUILayout.BeginHorizontal();
+		if(GUILayout.Button("New Build"))
+			BuildGame($"{GetBuildDirectory()}{PlayerSettings.productName}-{DateTime.Now.ToString(SettingsManager.BuildFolderNameStyle)}/{PlayerSettings.productName}");
+		if (GUILayout.Button("Open Build Folder"))
+		{
+			if (!Directory.Exists(GetBuildDirectory()))
+				Directory.CreateDirectory(GetBuildDirectory());
+
+			Process.Start(GetBuildDirectory());
 		}
+		EditorGUILayout.EndHorizontal();
+
+		EditorGUILayout.EndVertical();
 	}
 
-	public static void BuildGame(string buildDir)
+	public static void BuildGame(string buildDir, bool scriptsOnly = false)
 	{
 		Debug.Log($"Starting game build at {DateTime.Now:G}...");
 		Stopwatch stopwatch = Stopwatch.StartNew();
@@ -94,6 +115,10 @@ public static class GameBuilder
 		//Copy PDB files
 		if(SettingsManager.CopyPdbFiles)
 			EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles", SettingsManager.CopyPdbFiles ? "true" : "false");
+
+		//Scripts only
+		if (scriptsOnly)
+			options |= BuildOptions.BuildScriptsOnly;
 
 		//Run build action pre-build
 		Debug.Log("Running build actions pre build...");
