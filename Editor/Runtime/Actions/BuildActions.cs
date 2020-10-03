@@ -75,6 +75,12 @@ internal class BuildActions
 			{
 				EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
+				if (activeBuildAction.Value == null)
+				{
+					EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!", MessageType.Error);
+					continue;
+				}
+
 				EditorGUILayout.LabelField(activeBuildAction.Key, GUIStyles.DropdownHeaderStyle);
 				activeBuildAction.Value.OnGUI();
 
@@ -94,7 +100,7 @@ internal class BuildActions
 		Type actionType = availableActions.FirstOrDefault(x => x.FullName == action);
 		if (actionType == null)
 		{
-			activeBuildActions.Add("", null);
+			activeBuildActions.Add(action, null);
 			return;
 		}
 

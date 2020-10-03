@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using Voltstro.UnityBuilder.Settings;
 
-public class BuildOnRun : IBuildAction
+public class RunOnBuild : IBuildAction
 {
 	private const string SettingsKey = "RunOnBuild";
 
@@ -13,7 +13,7 @@ public class BuildOnRun : IBuildAction
 			SettingsManager.Instance.Save();
 		}
 
-		bool buildOnRun = EditorGUILayout.Toggle("Build On Run", SettingsManager.Instance.Get<bool>(SettingsKey));
+		bool buildOnRun = EditorGUILayout.Toggle("Run on Build", SettingsManager.Instance.Get<bool>(SettingsKey));
 		if (buildOnRun != SettingsManager.Instance.Get<bool>(SettingsKey))
 		{
 			SettingsManager.Instance.Set(SettingsKey, buildOnRun);
