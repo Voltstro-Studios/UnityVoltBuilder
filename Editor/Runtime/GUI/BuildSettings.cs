@@ -31,6 +31,8 @@ internal static class BuildSettings
 
 			EditorGUILayout.EndVertical();
 		}
+
+		EditorGUILayout.Space(8f);
 	}
 
 	private static void DrawHeader(string header)

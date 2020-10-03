@@ -42,7 +42,7 @@ internal class BuildActions
 	private Dictionary<string, IBuildAction> activeBuildActions;
 	private string[] dropdownOptions;
 
-	private bool buildActions;
+	private static bool buildActions;
 
 	internal static void RunPreActions(string buildLocation)
 	{
@@ -60,14 +60,14 @@ internal class BuildActions
 		}
 	}
 
-	internal void DrawOptions()
+	internal static void DrawOptions()
 	{
 		GUIStyles.DrawDropdownButton("Build Actions", ref buildActions);
 		if (buildActions)
 		{
 			EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
-			if (availableActions.Count == 0)
+			if (Instance.availableActions.Count == 0)
 			{
 				EditorGUILayout.HelpBox("There are no build actions to add!", MessageType.Error, true);
 				return;
@@ -76,12 +76,12 @@ internal class BuildActions
 			//Drop down of available build actions
 			int selectedIndex = 0;
 			EditorGUILayout.BeginHorizontal();
-			selectedIndex = EditorGUILayout.Popup(selectedIndex, dropdownOptions);
+			selectedIndex = EditorGUILayout.Popup(selectedIndex, Instance.dropdownOptions);
 
 			//Add button
 			if (GUILayout.Button("+"))
 			{
-				AddBuildAction(dropdownOptions[selectedIndex]);
+				Instance.AddBuildAction(Instance.dropdownOptions[selectedIndex]);
 			}
 
 			EditorGUILayout.EndHorizontal();
@@ -89,7 +89,7 @@ internal class BuildActions
 			try
 			{
 				//Do OnGUI for each option
-				foreach (KeyValuePair<string, IBuildAction> activeBuildAction in activeBuildActions)
+				foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
 				{
 					EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
@@ -105,7 +105,7 @@ internal class BuildActions
 
 					//Delete button
 					if (GUILayout.Button("Delete"))
-						DeleteBuildAction(activeBuildAction.Key);
+						Instance.DeleteBuildAction(activeBuildAction.Key);
 
 					EditorGUILayout.EndVertical();
 				}
@@ -116,6 +116,8 @@ internal class BuildActions
 			
 			EditorGUILayout.EndVertical();
 		}
+
+		EditorGUILayout.Space(8f);
 	}
 
 	private void AddBuildAction(string action)

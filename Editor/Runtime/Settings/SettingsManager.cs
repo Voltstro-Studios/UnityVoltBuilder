@@ -16,7 +16,7 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if(settings == null)
+				if (settings == null)
 					settings = new UnityEditor.SettingsManagement.Settings(PackageName);
 
 				return settings;
@@ -31,17 +31,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<string>("BuildLocation")) return settings.Get<string>("BuildLocation");
+				if (Instance.ContainsKey<string>("BuildLocation")) return Instance.Get<string>("BuildLocation");
 
-				settings.Set("BuildLocation", "Builds/");
-				settings.Save();
+				Instance.Set("BuildLocation", "Builds/");
+				Instance.Save();
 
-				return settings.Get<string>("BuildLocation");
+				return Instance.Get<string>("BuildLocation");
 			}
 			set
 			{
-				settings.Set("BuildLocation", value);
-				settings.Save();
+				Instance.Set("BuildLocation", value);
+				Instance.Save();
 			}
 		}
 
@@ -49,17 +49,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<string>("BuildFolderNameStyle")) return settings.Get<string>("BuildFolderNameStyle");
+				if (Instance.ContainsKey<string>("BuildFolderNameStyle")) return Instance.Get<string>("BuildFolderNameStyle");
 
-				settings.Set("BuildFolderNameStyle", "yy-MM-dd");
-				settings.Save();
+				Instance.Set("BuildFolderNameStyle", "yy-MM-dd");
+				Instance.Save();
 
-				return settings.Get<string>("BuildFolderNameStyle");
+				return Instance.Get<string>("BuildFolderNameStyle");
 			}
 			set
 			{
-				settings.Set("BuildFolderNameStyle", value);
-				settings.Save();
+				Instance.Set("BuildFolderNameStyle", value);
+				Instance.Save();
 			}
 		}
 
@@ -71,17 +71,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<BuildTarget>("BuildTarget")) return settings.Get<BuildTarget>("BuildTarget");
+				if (Instance.ContainsKey<BuildTarget>("BuildTarget")) return Instance.Get<BuildTarget>("BuildTarget");
 
-				settings.Set("BuildTarget", BuildTarget.StandaloneWindows64);
-				settings.Save();
+				Instance.Set("BuildTarget", BuildTarget.StandaloneWindows64);
+				Instance.Save();
 
-				return settings.Get<BuildTarget>("BuildTarget");
+				return Instance.Get<BuildTarget>("BuildTarget");
 			}
 			set
 			{
-				settings.Set("BuildTarget", value);
-				settings.Save();
+				Instance.Set("BuildTarget", value);
+				Instance.Save();
 			}
 		}
 
@@ -89,17 +89,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<bool>("ServerBuild")) return settings.Get<bool>("ServerBuild");
+				if (Instance.ContainsKey<bool>("ServerBuild")) return Instance.Get<bool>("ServerBuild");
 
-				settings.Set("ServerBuild", false);
-				settings.Save();
+				Instance.Set("ServerBuild", false);
+				Instance.Save();
 
-				return settings.Get<bool>("ServerBuild");
+				return Instance.Get<bool>("ServerBuild");
 			}
 			set
 			{
-				settings.Set("ServerBuild", value);
-				settings.Save();
+				Instance.Set("ServerBuild", value);
+				Instance.Save();
 			}
 		}
 
@@ -107,17 +107,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<bool>("CopyPDBFiles")) return settings.Get<bool>("CopyPDBFiles");
+				if (Instance.ContainsKey<bool>("CopyPDBFiles")) return Instance.Get<bool>("CopyPDBFiles");
 
-				settings.Set("CopyPDBFiles", false);
-				settings.Save();
+				Instance.Set("CopyPDBFiles", false);
+				Instance.Save();
 
-				return settings.Get<bool>("CopyPDBFiles");
+				return Instance.Get<bool>("CopyPDBFiles");
 			}
 			set
 			{
-				settings.Set("CopyPDBFiles", value);
-				settings.Save();
+				Instance.Set("CopyPDBFiles", value);
+				Instance.Save();
 			}
 		}
 
@@ -125,17 +125,17 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<bool>("DevelopmentBuild")) return settings.Get<bool>("DevelopmentBuild");
+				if (Instance.ContainsKey<bool>("DevelopmentBuild")) return Instance.Get<bool>("DevelopmentBuild");
 
-				settings.Set("DevelopmentBuild", false);
-				settings.Save();
+				Instance.Set("DevelopmentBuild", false);
+				Instance.Save();
 
-				return settings.Get<bool>("DevelopmentBuild");
+				return Instance.Get<bool>("DevelopmentBuild");
 			}
 			set
 			{
-				settings.Set("DevelopmentBuild", value);
-				settings.Save();
+				Instance.Set("DevelopmentBuild", value);
+				Instance.Save();
 			}
 		}
 
@@ -145,35 +145,18 @@ namespace Voltstro.UnityBuilder.Settings
 		{
 			get
 			{
-				if (settings.ContainsKey<List<string>>("BuildActions")) return settings.Get<List<string>>("BuildActions");
+				if (!Instance.ContainsKey<List<string>>("BuildActions"))
+				{
+					Instance.Set("BuildActions", new List<string>());
+					Instance.Save();
+				}
 
-				settings.Set("BuildActions", new List<string>());
-				settings.Save();
-
-				return settings.Get<List<string>>("BuildActions");
+				return Instance.Get<List<string>>("BuildActions");
 			}
 			set
 			{
-				settings.Set("BuildActions", value);
-				settings.Save();
-			}
-		}
-
-		internal static List<string> Scenes
-		{
-			get
-			{
-				if (settings.ContainsKey<List<string>>("Scenes")) return settings.Get<List<string>>("Scenes");
-
-				settings.Set("Scenes", new List<string>());
-				settings.Save();
-
-				return settings.Get<List<string>>("Scenes");
-			}
-			set
-			{
-				settings.Set("Scenes", value);
-				settings.Save();
+				Instance.Set("BuildActions", value);
+				Instance.Save();
 			}
 		}
 

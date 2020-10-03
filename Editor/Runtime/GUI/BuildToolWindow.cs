@@ -15,24 +15,10 @@ public class BuildToolWindow : EditorWindow
 	{
 		//Main title
 		EditorGUILayout.LabelField("Volt Unity Build", GUIStyles.TitleStyle);
-		EditorGUILayout.Space();
+		EditorGUILayout.Space(15f);
 
-		DrawSceneSettings();
 		BuildSettings.DrawOptions();
-		EditorGUILayout.Space();
-		BuildActions.Instance.DrawOptions();
-		EditorGUILayout.Space();
+		BuildActions.DrawOptions();
 		GameBuilder.DrawOptions();
-	}
-
-	private void DrawSceneSettings()
-	{
-		if (!SettingsManager.Instance.ContainsKey<List<string>>("scenes"))
-		{
-			SettingsManager.Instance.Set("scenes", new List<string>());
-			SettingsManager.Instance.Save();
-		}
-
-		//TODO: Draw a list of scenes
 	}
 }
