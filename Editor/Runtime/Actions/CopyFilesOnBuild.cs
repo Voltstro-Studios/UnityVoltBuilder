@@ -98,23 +98,23 @@ namespace Voltstro.UnityBuilder.Actions
 				{
 					EditorGUILayout.BeginHorizontal();
 
-					FilesToCopy[i] =
-						EditorGUILayout.TextField(FilesToCopy[i]);
+					List<string> filesToCopy = FilesToCopy;
+					List<string> copyToWhere = CopyToWhere;
 
-					CopyToWhere[i] =
-						EditorGUILayout.TextField(CopyToWhere[i]);
+					filesToCopy[i] =
+						EditorGUILayout.TextField(filesToCopy[i]);
+
+					copyToWhere[i] =
+						EditorGUILayout.TextField(copyToWhere[i]);
 
 					if (GUILayout.Button("-"))
 					{
-						List<string> filesToCopy = FilesToCopy;
-						List<string> copyToWhere = CopyToWhere;
-
 						filesToCopy.Remove(FilesToCopy[i]);
 						copyToWhere.Remove(CopyToWhere[i]);
-
-						FilesToCopy = filesToCopy;
-						CopyToWhere = copyToWhere;
 					}
+
+					FilesToCopy = filesToCopy;
+					CopyToWhere = copyToWhere;
 
 					EditorGUILayout.EndHorizontal();
 				}
