@@ -113,6 +113,9 @@ namespace Voltstro.UnityBuilder.Actions
 							Instance.DeleteBuildAction(activeBuildAction.Key);
 
 						EditorGUILayout.EndVertical();
+
+						if(!activeBuildAction.Equals(Instance.activeBuildActions.Last()))
+							EditorGUILayout.Space();
 					}
 				}
 				catch(InvalidOperationException)
