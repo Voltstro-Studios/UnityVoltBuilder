@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -161,7 +162,8 @@ namespace Voltstro.UnityBuilder.Build
 				locationPathName = buildDir,
 				target = buildTarget,
 				options = options,
-				targetGroup = targetGroup
+				targetGroup = targetGroup,
+				scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray()
 			});
 
 			//If the build failed
