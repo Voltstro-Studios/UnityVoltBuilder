@@ -10,6 +10,7 @@ An in editor, modular tool to make Unity game builds easier and more convenient.
 
 - Easy to get at menu of settings to build your Unity player.
 - Build Actions (Can add custom GUI to the tool, do something before and after a build)
+	- Two provided ones are supplied, CopyFilesOnBuild and RunOnBuild
 - Easily do a "Quick" build, a new build, or a scripts only build.
 
 # Installation
