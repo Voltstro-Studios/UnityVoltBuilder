@@ -4,7 +4,7 @@ using Voltstro.UnityBuilder.Settings;
 
 namespace Voltstro.UnityBuilder.Actions
 {
-	public class RunOnBuild : IBuildAction
+	internal sealed class RunOnBuild : IBuildAction
 	{
 		private const string SettingsRunOnBuild = "RunOnBuild";
 		private const string SettingArguments = "RunOnBuildArguments";

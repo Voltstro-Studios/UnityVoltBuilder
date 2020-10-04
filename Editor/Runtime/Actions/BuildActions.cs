@@ -42,6 +42,7 @@ namespace Voltstro.UnityBuilder.Actions
 		}
 
 		private static bool buildActions;
+		private static int selectedIndex;
 
 		private readonly List<Type> availableActions;
 		private readonly Dictionary<string, IBuildAction> activeBuildActions;
@@ -77,7 +78,6 @@ namespace Voltstro.UnityBuilder.Actions
 				}
 
 				//Drop down of available build actions
-				int selectedIndex = 0;
 				EditorGUILayout.BeginHorizontal();
 				selectedIndex = EditorGUILayout.Popup(selectedIndex, Instance.dropdownOptions);
 

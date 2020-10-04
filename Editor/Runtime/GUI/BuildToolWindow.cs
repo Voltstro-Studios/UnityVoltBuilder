@@ -5,7 +5,7 @@ using Voltstro.UnityBuilder.Build;
 
 namespace Voltstro.UnityBuilder.GUI
 {
-	public class BuildToolWindow : EditorWindow
+	public sealed class BuildToolWindow : EditorWindow
 	{
 		[MenuItem("Tools/Volt Unity Builder/Volt Builder")]
 		public static void ShowWindow()
