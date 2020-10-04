@@ -67,6 +67,8 @@ public class CustomBuildAction : IBuildAction
 }
 ```
 
+After that, the tool will automaticaly add it as a selectable option in the dropdown in the Build Actions.
+
 # Authors
 Voltstro – *Initial Work* – [Voltstro](https://github.com/Voltstro)
 
