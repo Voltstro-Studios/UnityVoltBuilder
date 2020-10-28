@@ -1,7 +1,7 @@
 {
   "name": "dev.voltstro.voltbuildertool",
   "displayName": "Volt Unity Builder",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "unity": "2019.4",
   "description": "An in-editor, modular tool to make Unity game builds easier and more convenient",
   "author": {
