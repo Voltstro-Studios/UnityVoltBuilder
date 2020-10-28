@@ -187,6 +187,7 @@ namespace Voltstro.UnityBuilder.Build
 			//End
 			stopwatch.Stop();
 			Debug.Log($"Build done in {stopwatch.ElapsedMilliseconds / 1000}s!");
+			GUIUtility.ExitGUI();
 		}
 
 		public static string GetBuildDirectory()
