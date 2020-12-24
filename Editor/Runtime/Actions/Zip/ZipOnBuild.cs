@@ -5,54 +5,56 @@ using System.IO;
 using Unity.SharpZipLib.Utils;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using Voltstro.UnityBuilder.Actions;
 using Voltstro.UnityBuilder.Settings;
 using Debug = UnityEngine.Debug;
 
-public class ZipOnBuild : IBuildAction
+namespace Voltstro.UnityBuilder.Actions
 {
-	public void OnGUI()
+	public class ZipOnBuild : IBuildAction
 	{
-		ZipBuild = EditorGUILayout.Toggle("Zip Build", ZipBuild);
-	}
-
-	public void OnBeforeBuild(string buildLocation)
-	{
-		
-	}
-
-	public void OnAfterBuild(string buildLocation, BuildReport report)
-	{
-		if (ZipBuild)
+		public void OnGUI()
 		{
-			Stopwatch stopwatch = Stopwatch.StartNew();
-			string outPath = $"{buildLocation}/../{Path.GetFileName(buildLocation)}.zip";
-			Debug.Log("Compressing build...");
-			ZipUtility.CompressFolderToZip(outPath, null, buildLocation);
-
-			stopwatch.Stop();
-			Debug.Log($"Compressed build to {outPath}. Took {stopwatch.Elapsed.Seconds}s to compress.");
+			ZipBuild = EditorGUILayout.Toggle("Zip Build", ZipBuild);
 		}
-	}
 
-	private static bool ZipBuild
-	{
-		get
+		public void OnBeforeBuild(string buildLocation)
 		{
-			if (!SettingsManager.Instance.ContainsKey<bool>("ZipBuild"))
+		}
+
+		public void OnAfterBuild(string buildLocation, BuildReport report)
+		{
+			if (ZipBuild)
 			{
-				SettingsManager.Instance.Set("ZipBuild", true);
+				Stopwatch stopwatch = Stopwatch.StartNew();
+				string outPath = $"{buildLocation}/../{Path.GetFileName(buildLocation)}.zip";
+				Debug.Log("Compressing build...");
+				ZipUtility.CompressFolderToZip(outPath, null, buildLocation);
+
+				stopwatch.Stop();
+				Debug.Log($"Compressed build to {outPath}. Took {stopwatch.Elapsed.Seconds}s to compress.");
+			}
+		}
+
+		private static bool ZipBuild
+		{
+			get
+			{
+				if (!SettingsManager.Instance.ContainsKey<bool>("ZipBuild"))
+				{
+					SettingsManager.Instance.Set("ZipBuild", true);
+					SettingsManager.Instance.Save();
+				}
+
+				return SettingsManager.Instance.Get<bool>("ZipBuild");
+			}
+			set
+			{
+				SettingsManager.Instance.Set("ZipBuild", value);
 				SettingsManager.Instance.Save();
 			}
-
-			return SettingsManager.Instance.Get<bool>("ZipBuild");
-		}
-		set
-		{
-			SettingsManager.Instance.Set("ZipBuild", value);
-			SettingsManager.Instance.Save();
 		}
 	}
+
 }
 
 #endif
