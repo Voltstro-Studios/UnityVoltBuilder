@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Voltstro.UnityBuilder.Settings
 {
-	internal static class SettingsManager
+	public static class SettingsManager
 	{
 		private const string PackageName = "dev.voltstro.voltunitybuilder";
 
@@ -12,7 +12,7 @@ namespace Voltstro.UnityBuilder.Settings
 		/// <summary>
 		/// The active <see cref="Settings"/> instance
 		/// </summary>
-		internal static UnityEditor.SettingsManagement.Settings Instance
+		public static UnityEditor.SettingsManagement.Settings Instance
 		{
 			get
 			{
