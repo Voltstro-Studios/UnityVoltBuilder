@@ -1,4 +1,6 @@
-﻿namespace Voltstro.UnityBuilder.Actions
+﻿using UnityEditor.Build.Reporting;
+
+namespace Voltstro.UnityBuilder.Actions
 {
 	public interface IBuildAction
 	{
@@ -6,6 +8,6 @@
 
 		void OnBeforeBuild(string buildLocation);
 
-		void OnAfterBuild(string buildLocation);
+		void OnAfterBuild(string buildLocation, BuildReport report);
 	}
 }

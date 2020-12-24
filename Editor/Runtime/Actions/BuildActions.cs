@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using Voltstro.UnityBuilder.GUI;
 using Voltstro.UnityBuilder.Settings;
@@ -56,11 +57,11 @@ namespace Voltstro.UnityBuilder.Actions
 			}
 		}
 
-		internal static void RunPostActions(string buildLocation)
+		internal static void RunPostActions(string buildLocation, BuildReport report)
 		{
 			foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
 			{
-				activeBuildAction.Value?.OnAfterBuild(buildLocation);
+				activeBuildAction.Value?.OnAfterBuild(buildLocation, report);
 			}
 		}
 

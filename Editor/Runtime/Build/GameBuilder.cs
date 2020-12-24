@@ -177,7 +177,7 @@ namespace Voltstro.UnityBuilder.Build
 			//Run Build Action post build
 			try
 			{
-				BuildActions.RunPostActions(Path.GetDirectoryName(buildDir));
+				BuildActions.RunPostActions(Path.GetDirectoryName(buildDir), report);
 			}
 			catch (Exception ex)
 			{

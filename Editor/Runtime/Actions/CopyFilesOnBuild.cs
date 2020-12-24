@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using Voltstro.UnityBuilder.GUI;
 using Voltstro.UnityBuilder.Settings;
@@ -19,7 +20,7 @@ namespace Voltstro.UnityBuilder.Actions
 		{
 		}
 
-		public void OnAfterBuild(string buildLocation)
+		public void OnAfterBuild(string buildLocation, BuildReport report)
 		{
 			for (int i = 0; i < FilesToCopy.Count; i++)
 			{

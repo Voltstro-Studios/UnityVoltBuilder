@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using UnityEditor;
+using UnityEditor.Build.Reporting;
 using Voltstro.UnityBuilder.Settings;
 
 namespace Voltstro.UnityBuilder.Actions
@@ -21,7 +22,7 @@ namespace Voltstro.UnityBuilder.Actions
 		{
 		}
 
-		public void OnAfterBuild(string buildLocation)
+		public void OnAfterBuild(string buildLocation, BuildReport report)
 		{
 			if (RunOnBuildSetting)
 				Process.Start(buildLocation, RunOnBuildArguments);
