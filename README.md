@@ -10,7 +10,7 @@ An in editor, modular tool to make Unity game builds easier and more convenient.
 
 - Easy to get at menu of settings to build your Unity player.
 - Build Actions (Can add custom GUI to the tool, do something before and after a build)
-	- Two provided ones are supplied, CopyFilesOnBuild and RunOnBuild
+	- Three are provided, CopyFilesOnBuild, RunOnBuild and [ZipOnBuild](#ZipOnBuild)
 - Easily do a "Quick" build, a new build, or a scripts only build.
 
 # Installation
@@ -40,7 +40,15 @@ This tool was built and tested for Unity 2019.4 on Windows.
 
 Other OSes should work; however, no testing has been done on them.
 
-## Adding a custom 'Build Action'
+## Build Actions
+
+You can add build actions under the 'Build Actions' menu, the select what build action you want to add by selecting it in the dropdown, then press the '+' button.
+
+### ZipOnBuild
+
+This build action requires the [`com.unity.sharp-zip-lib`](https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@latest/) package to be installed. By default, the package DOES NOT appear under the Unity Registry menu in the package manager, you will need to add it manually by either altering your `manifest.json` file, or by typing `com.unity.sharp-zip-lib` into the Add package from git URL option in the package manager.
+
+### Custom Build Actions
 
 To add a custom Build Action, add a class to your project, and make it implement `IBuildAction`. You will then need to add the required methods: `OnGUI()`, `OnBeforeBuild(string buildLocation)`, and `OnAfterBuild(string buildLocation)`.
 
