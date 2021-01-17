@@ -22,15 +22,14 @@ namespace Voltstro.UnityBuilder.Build
 
 			EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("Build Player"))
-				BuildGame($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}");
+				BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}");
 			if (GUILayout.Button("Scripts Only"))
-				BuildGame($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}",
-					true);
+				BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}", true);
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("New Build"))
-				BuildGame(
+				BuildGameGUI(
 					$"{GetBuildDirectory()}{PlayerSettings.productName}-{DateTime.Now.ToString(SettingsManager.BuildFolderNameStyle)}/{PlayerSettings.productName}");
 			if (GUILayout.Button("Open Build Folder"))
 			{
@@ -45,13 +44,16 @@ namespace Voltstro.UnityBuilder.Build
 			EditorGUILayout.EndVertical();
 		}
 
-		public static void BuildGame(string buildDir, bool scriptsOnly = false)
+		private static void BuildGameGUI(string buildDir, bool scriptsOnly = false)
+		{
+			BuildGame(buildDir, SettingsManager.BuildTarget, scriptsOnly);
+			GUIUtility.ExitGUI();
+		}
+
+		public static void BuildGame(string buildDir, BuildTarget buildTarget, bool scriptsOnly = false)
 		{
 			Debug.Log($"Starting game build at {DateTime.Now:G}...");
 			Stopwatch stopwatch = Stopwatch.StartNew();
-
-			//Get our settings that we need
-			BuildTarget buildTarget = SettingsManager.BuildTarget;
 
 			if (buildTarget == BuildTarget.StandaloneWindows || buildTarget == BuildTarget.StandaloneWindows64)
 				buildDir += ".exe";
@@ -187,7 +189,6 @@ namespace Voltstro.UnityBuilder.Build
 			//End
 			stopwatch.Stop();
 			Debug.Log($"Build done in {stopwatch.ElapsedMilliseconds / 1000}s!");
-			GUIUtility.ExitGUI();
 		}
 
 		public static string GetBuildDirectory()
