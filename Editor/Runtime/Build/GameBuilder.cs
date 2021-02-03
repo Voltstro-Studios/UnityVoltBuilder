@@ -14,6 +14,8 @@ namespace Voltstro.UnityBuilder.Build
 {
 	public static class GameBuilder
 	{
+		private const string CopyPdbFilesEditorString = "CopyPDBFiles";
+
 		internal static void DrawOptions()
 		{
 			EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
@@ -46,11 +48,14 @@ namespace Voltstro.UnityBuilder.Build
 
 		private static void BuildGameGUI(string buildDir, bool scriptsOnly = false)
 		{
-			BuildGame(buildDir, SettingsManager.BuildTarget, scriptsOnly);
+			BuildGame(buildDir, SettingsManager.BuildTarget, SettingsManager.ServerBuild, SettingsManager.DevelopmentBuild, 
+				SettingsManager.AutoconnectProfiler, SettingsManager.DeepProfiling, SettingsManager.ScriptDebugging, 
+				SettingsManager.CopyPdbFiles, scriptsOnly);
 			GUIUtility.ExitGUI();
 		}
 
-		public static void BuildGame(string buildDir, BuildTarget buildTarget, bool scriptsOnly = false)
+		public static void BuildGame(string buildDir, BuildTarget buildTarget, bool headLessBuild, bool devBuild = false, bool autoConnectProfiler = false, 
+			bool deepProfiling = false, bool scriptDebugging = false, bool copyPdbFiles = false, bool scriptsOnly = false)
 		{
 			Debug.Log($"Starting game build at {DateTime.Now:G}...");
 			Stopwatch stopwatch = Stopwatch.StartNew();
@@ -61,7 +66,6 @@ namespace Voltstro.UnityBuilder.Build
 			Debug.Log($"Building to '{buildDir}'...");
 
 			//Set target group
-
 			#region Target Group
 
 			BuildTargetGroup targetGroup;
@@ -116,26 +120,31 @@ namespace Voltstro.UnityBuilder.Build
 			BuildOptions options = BuildOptions.None;
 
 			//Server/Headless mode
-			if (SettingsManager.ServerBuild)
+			if (headLessBuild)
 				options |= BuildOptions.EnableHeadlessMode;
 
 			//Copy PDB files
-			if (SettingsManager.CopyPdbFiles)
-				EditorUserBuildSettings.SetPlatformSettings("Standalone", "CopyPDBFiles",
+			if (copyPdbFiles)
+			{
+				EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
 					SettingsManager.CopyPdbFiles ? "true" : "false");
+			}
+
+			string existingCopyPdbFilesOptions =
+				EditorUserBuildSettings.GetPlatformSettings("Standalone", CopyPdbFilesEditorString);
 
 			//Dev build
-			if (SettingsManager.DevelopmentBuild)
+			if (devBuild)
 			{
 				options |= BuildOptions.Development;
 
-				if (SettingsManager.AutoconnectProfiler)
+				if (autoConnectProfiler)
 					options |= BuildOptions.ConnectWithProfiler;
 
-				if (SettingsManager.DeepProfiling)
+				if (deepProfiling)
 					options |= BuildOptions.EnableDeepProfilingSupport;
 
-				if (SettingsManager.ScriptDebugging)
+				if (scriptDebugging)
 					options |= BuildOptions.AllowDebugging;
 			}
 
@@ -167,6 +176,10 @@ namespace Voltstro.UnityBuilder.Build
 				targetGroup = targetGroup,
 				scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray()
 			});
+
+			//Set CopyPDBFiles to it's original setting
+			EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
+				existingCopyPdbFilesOptions);
 
 			//If the build failed
 			if (report.summary.result != BuildResult.Succeeded)
