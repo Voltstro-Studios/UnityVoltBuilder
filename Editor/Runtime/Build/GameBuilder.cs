@@ -124,14 +124,12 @@ namespace Voltstro.UnityBuilder.Build
 				options |= BuildOptions.EnableHeadlessMode;
 
 			//Copy PDB files
-			if (copyPdbFiles)
-			{
-				EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
-					SettingsManager.CopyPdbFiles ? "true" : "false");
-			}
-
 			string existingCopyPdbFilesOptions =
 				EditorUserBuildSettings.GetPlatformSettings("Standalone", CopyPdbFilesEditorString);
+
+			if (copyPdbFiles)
+				EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
+					SettingsManager.CopyPdbFiles ? "true" : "false");
 
 			//Dev build
 			if (devBuild)
