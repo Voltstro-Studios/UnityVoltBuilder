@@ -49,11 +49,11 @@ namespace Voltstro.UnityBuilder.Actions
 		private readonly Dictionary<string, IBuildAction> activeBuildActions;
 		private readonly string[] dropdownOptions;
 
-		internal static void RunPreActions(string buildLocation, BuildTarget buildTarget)
+		internal static void RunPreActions(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
 		{
 			foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
 			{
-				activeBuildAction.Value?.OnBeforeBuild(buildLocation, buildTarget);
+				activeBuildAction.Value?.OnBeforeBuild(buildLocation, buildTarget, ref buildOptions);
 			}
 		}
 

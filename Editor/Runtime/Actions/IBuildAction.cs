@@ -7,7 +7,7 @@ namespace Voltstro.UnityBuilder.Actions
 	{
 		void OnGUI();
 
-		void OnBeforeBuild(string buildLocation, BuildTarget buildTarget);
+		void OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions);
 
 		void OnAfterBuild(string buildLocation, BuildReport report);
 	}

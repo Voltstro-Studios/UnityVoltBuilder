@@ -18,7 +18,7 @@ namespace Voltstro.UnityBuilder.Actions
 			EditorGUILayout.Space();
 		}
 
-		public void OnBeforeBuild(string buildLocation, BuildTarget buildTarget)
+		public void OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
 		{
 		}
 

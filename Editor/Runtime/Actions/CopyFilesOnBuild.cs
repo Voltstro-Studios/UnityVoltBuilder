@@ -16,7 +16,7 @@ namespace Voltstro.UnityBuilder.Actions
 				EditorWindow.GetWindow(typeof(CopyFilesWindow), true, "Files To Copy", true);
 		}
 
-		public void OnBeforeBuild(string buildLocation, BuildTarget buildTarget)
+		public void OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
 		{
 		}
 

@@ -154,7 +154,7 @@ namespace Voltstro.UnityBuilder.Build
 			Debug.Log("Running build actions pre build...");
 			try
 			{
-				BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), buildTarget);
+				BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), buildTarget, ref options);
 			}
 			catch (Exception ex)
 			{
