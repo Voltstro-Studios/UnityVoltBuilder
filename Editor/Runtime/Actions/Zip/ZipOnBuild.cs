@@ -17,7 +17,7 @@ namespace Voltstro.UnityBuilder.Actions
 			ZipBuild = EditorGUILayout.Toggle("Zip Build", ZipBuild);
 		}
 
-		public void OnBeforeBuild(string buildLocation)
+		public void OnBeforeBuild(string buildLocation, BuildTarget buildTarget)
 		{
 		}
 

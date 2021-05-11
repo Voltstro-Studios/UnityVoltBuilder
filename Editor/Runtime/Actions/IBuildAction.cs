@@ -1,4 +1,5 @@
-﻿using UnityEditor.Build.Reporting;
+﻿using UnityEditor;
+using UnityEditor.Build.Reporting;
 
 namespace Voltstro.UnityBuilder.Actions
 {
@@ -6,7 +7,7 @@ namespace Voltstro.UnityBuilder.Actions
 	{
 		void OnGUI();
 
-		void OnBeforeBuild(string buildLocation);
+		void OnBeforeBuild(string buildLocation, BuildTarget buildTarget);
 
 		void OnAfterBuild(string buildLocation, BuildReport report);
 	}
