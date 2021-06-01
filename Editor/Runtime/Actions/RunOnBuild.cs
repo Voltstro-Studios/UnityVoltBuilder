@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using Voltstro.UnityBuilder.Settings;
+using VoltUnityBuilder.Settings;
 
-namespace Voltstro.UnityBuilder.Actions
+namespace VoltUnityBuilder.Actions
 {
 	internal sealed class RunOnBuild : IBuildAction
 	{

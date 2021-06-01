@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Voltstro.UnityBuilder.GUI
+namespace VoltUnityBuilder.GUI
 {
 	internal class GUIStyles
 	{

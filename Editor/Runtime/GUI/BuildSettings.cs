@@ -1,8 +1,8 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Voltstro.UnityBuilder.Settings;
+using VoltUnityBuilder.Settings;
 
-namespace Voltstro.UnityBuilder.GUI
+namespace VoltUnityBuilder.GUI
 {
 	internal static class BuildSettings
 	{

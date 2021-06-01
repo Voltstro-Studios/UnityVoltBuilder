@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using Voltstro.UnityBuilder.Actions;
-using Voltstro.UnityBuilder.Build;
+using VoltUnityBuilder.Actions;
+using VoltUnityBuilder.Build;
 
-namespace Voltstro.UnityBuilder.GUI
+namespace VoltUnityBuilder.GUI
 {
 	public sealed class BuildToolWindow : EditorWindow
 	{

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace Voltstro.UnityBuilder.Actions
+namespace VoltUnityBuilder.Actions
 {
 	public interface IBuildAction
 	{

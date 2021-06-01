@@ -1,5 +1,6 @@
 {
-    "name": "Voltstro.UnityBuilder.Editor",
+    "name": "VoltUnityBuilder",
+    "rootNamespace": "VoltUnityBuilder",
     "references": [
         "GUID:49818357e697641afb75d2f8acaf1861"
     ],

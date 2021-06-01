@@ -5,12 +5,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using Voltstro.UnityBuilder.Actions;
-using Voltstro.UnityBuilder.GUI;
-using Voltstro.UnityBuilder.Settings;
+using VoltUnityBuilder.Actions;
+using VoltUnityBuilder.GUI;
+using VoltUnityBuilder.Settings;
 using Debug = UnityEngine.Debug;
 
-namespace Voltstro.UnityBuilder.Build
+namespace VoltUnityBuilder.Build
 {
 	public static class GameBuilder
 	{

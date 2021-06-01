@@ -3,10 +3,10 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using Voltstro.UnityBuilder.GUI;
-using Voltstro.UnityBuilder.Settings;
+using VoltUnityBuilder.GUI;
+using VoltUnityBuilder.Settings;
 
-namespace Voltstro.UnityBuilder.Actions
+namespace VoltUnityBuilder.Actions
 {
 	internal sealed class CopyFilesOnBuild : IBuildAction
 	{

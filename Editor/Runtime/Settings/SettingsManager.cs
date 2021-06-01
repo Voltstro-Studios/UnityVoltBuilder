@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 
-namespace Voltstro.UnityBuilder.Settings
+namespace VoltUnityBuilder.Settings
 {
 	/// <summary>
 	///		Manages settings for VoltUnityBuilder
