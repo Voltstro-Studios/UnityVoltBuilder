@@ -1,82 +1,79 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace VoltUnityBuilder.GUI
+namespace UnityVoltBuilder.GUI
 {
-	internal class GUIStyles
-	{
-		internal GUIStyles()
-		{
-			//Title Style
-			titleStyle = new GUIStyle(EditorStyles.boldLabel)
-			{
-				alignment = TextAnchor.MiddleCenter,
-				fontSize = 18
-			};
+    internal class GUIStyles
+    {
+        private static GUIStyles instance;
+        private readonly GUIStyle dropdownButtonStyle;
+        private readonly GUIStyle dropdownContentStyle;
+        private readonly GUIStyle dropdownHeaderStyle;
 
-			dropdownButtonStyle = new GUIStyle(UnityEngine.GUI.skin.button)
-			{
-				alignment = TextAnchor.MiddleLeft,
-				fontStyle = FontStyle.Bold,
-				margin = new RectOffset(5, 5, 0, 0)
-			};
+        private readonly GUIStyle titleStyle;
 
-			dropdownContentStyle = new GUIStyle(UnityEngine.GUI.skin.textField)
-			{
-				padding = new RectOffset(5, 5, 5, 5),
-				margin = new RectOffset(5, 5, 0, 0)
-			};
+        internal GUIStyles()
+        {
+            //Title Style
+            titleStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontSize = 18
+            };
 
-			dropdownHeaderStyle = new GUIStyle(EditorStyles.helpBox)
-			{
-				fontStyle = FontStyle.Bold
-			};
-		}
+            dropdownButtonStyle = new GUIStyle(UnityEngine.GUI.skin.button)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                fontStyle = FontStyle.Bold,
+                margin = new RectOffset(5, 5, 0, 0)
+            };
 
-		private static GUIStyles instance;
+            dropdownContentStyle = new GUIStyle(UnityEngine.GUI.skin.textField)
+            {
+                padding = new RectOffset(5, 5, 5, 5),
+                margin = new RectOffset(5, 5, 0, 0)
+            };
 
-		private readonly GUIStyle titleStyle;
-		private readonly GUIStyle dropdownButtonStyle;
-		private readonly GUIStyle dropdownContentStyle;
-		private readonly GUIStyle dropdownHeaderStyle;
+            dropdownHeaderStyle = new GUIStyle(EditorStyles.helpBox)
+            {
+                fontStyle = FontStyle.Bold
+            };
+        }
 
-		#region Internal Getters
+        #region Internal Functions
 
-		/// <summary>
-		/// Active <see cref="GUIStyles"/> instance
-		/// </summary>
-		internal static GUIStyles Instance
-		{
-			get
-			{
-				if (instance == null)
-					instance = new GUIStyles();
+        internal static void DrawDropdownButton(string text, ref bool dropdown)
+        {
+            if (GUILayout.Button(text, instance.dropdownButtonStyle)) dropdown = !dropdown;
+        }
 
-				return instance;
-			}
-		}
+        #endregion
 
-		/// <summary>
-		/// Main title style
-		/// </summary>
-		internal static GUIStyle TitleStyle => Instance.titleStyle;
+        #region Internal Getters
 
-		internal static GUIStyle DropdownContentStyle => Instance.dropdownContentStyle;
+        /// <summary>
+        ///     Active <see cref="GUIStyles" /> instance
+        /// </summary>
+        internal static GUIStyles Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new GUIStyles();
 
-		internal static GUIStyle DropdownHeaderStyle => Instance.dropdownHeaderStyle;
+                return instance;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        ///     Main title style
+        /// </summary>
+        internal static GUIStyle TitleStyle => Instance.titleStyle;
 
-		#region Internal Functions
+        internal static GUIStyle DropdownContentStyle => Instance.dropdownContentStyle;
 
-		internal static void DrawDropdownButton(string text, ref bool dropdown)
-		{
-			if (GUILayout.Button(text, instance.dropdownButtonStyle))
-			{
-				dropdown = !dropdown;
-			}
-		}
+        internal static GUIStyle DropdownHeaderStyle => Instance.dropdownHeaderStyle;
 
-		#endregion
-	}
+        #endregion
+    }
 }

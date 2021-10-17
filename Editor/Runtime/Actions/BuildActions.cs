@@ -4,169 +4,156 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using VoltUnityBuilder.GUI;
-using VoltUnityBuilder.Settings;
+using UnityVoltBuilder.GUI;
+using UnityVoltBuilder.Settings;
 
-namespace VoltUnityBuilder.Actions
+namespace UnityVoltBuilder.Actions
 {
-	internal class BuildActions
-	{
-		internal BuildActions()
-		{
-			activeBuildActions = new Dictionary<string, IBuildAction>();
-			availableActions = AppDomain.CurrentDomain.GetAssemblies()
-				.SelectMany(s => s.GetTypes())
-				.Where(p => typeof(IBuildAction).IsAssignableFrom(p) && !p.IsInterface)
-				.ToList();
-			dropdownOptions = availableActions.Select(availableAction => availableAction.Name).ToArray();
+    internal class BuildActions
+    {
+        private static BuildActions instance;
 
-			foreach (string buildAction in SettingsManager.BuildActions)
-			{
-				AddBuildAction(buildAction);
-			}
-		}
+        private static bool buildActions;
+        private static int selectedIndex;
+        private readonly Dictionary<string, IBuildAction> activeBuildActions;
 
-		private static BuildActions instance;
+        private readonly List<Type> availableActions;
+        private readonly string[] dropdownOptions;
 
-		/// <summary>
-		/// Active <see cref="BuildActions"/> instance
-		/// </summary>
-		internal static BuildActions Instance
-		{
-			get
-			{
-				if (instance == null)
-					instance = new BuildActions();
+        internal BuildActions()
+        {
+            activeBuildActions = new Dictionary<string, IBuildAction>();
+            availableActions = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => typeof(IBuildAction).IsAssignableFrom(p) && !p.IsInterface)
+                .ToList();
+            dropdownOptions = availableActions.Select(availableAction => availableAction.Name).ToArray();
 
-				return instance;
-			}
-		}
+            foreach (string buildAction in SettingsManager.BuildActions) AddBuildAction(buildAction);
+        }
 
-		private static bool buildActions;
-		private static int selectedIndex;
+        /// <summary>
+        ///     Active <see cref="BuildActions" /> instance
+        /// </summary>
+        internal static BuildActions Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new BuildActions();
 
-		private readonly List<Type> availableActions;
-		private readonly Dictionary<string, IBuildAction> activeBuildActions;
-		private readonly string[] dropdownOptions;
+                return instance;
+            }
+        }
 
-		internal static void RunPreActions(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
-		{
-			foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
-			{
-				activeBuildAction.Value?.OnBeforeBuild(buildLocation, buildTarget, ref buildOptions);
-			}
-		}
+        internal static void RunPreActions(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
+        {
+            foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
+                activeBuildAction.Value?.OnBeforeBuild(buildLocation, buildTarget, ref buildOptions);
+        }
 
-		internal static void RunPostActions(string buildLocation, BuildReport report)
-		{
-			foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
-			{
-				activeBuildAction.Value?.OnAfterBuild(buildLocation, report);
-			}
-		}
+        internal static void RunPostActions(string buildLocation, BuildReport report)
+        {
+            foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
+                activeBuildAction.Value?.OnAfterBuild(buildLocation, report);
+        }
 
-		internal static void DrawOptions()
-		{
-			GUIStyles.DrawDropdownButton("Build Actions", ref buildActions);
-			if (buildActions)
-			{
-				EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
+        internal static void DrawOptions()
+        {
+            GUIStyles.DrawDropdownButton("Build Actions", ref buildActions);
+            if (buildActions)
+            {
+                EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
-				if (Instance.availableActions.Count == 0)
-				{
-					EditorGUILayout.HelpBox("There are no build actions to add!", MessageType.Error, true);
-					return;
-				}
+                if (Instance.availableActions.Count == 0)
+                {
+                    EditorGUILayout.HelpBox("There are no build actions to add!", MessageType.Error, true);
+                    return;
+                }
 
-				//Drop down of available build actions
-				EditorGUILayout.BeginHorizontal();
-				selectedIndex = EditorGUILayout.Popup(selectedIndex, Instance.dropdownOptions);
+                //Drop down of available build actions
+                EditorGUILayout.BeginHorizontal();
+                selectedIndex = EditorGUILayout.Popup(selectedIndex, Instance.dropdownOptions);
 
-				//Add button
-				if (GUILayout.Button("+"))
-				{
-					Instance.AddBuildAction(Instance.dropdownOptions[selectedIndex]);
-				}
+                //Add button
+                if (GUILayout.Button("+")) Instance.AddBuildAction(Instance.dropdownOptions[selectedIndex]);
 
-				EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndHorizontal();
 
-				try
-				{
-					//Do OnGUI for each option
-					foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
-					{
-						EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
+                try
+                {
+                    //Do OnGUI for each option
+                    foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
+                    {
+                        EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
-						if (activeBuildAction.Value == null)
-						{
-							EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!", MessageType.Error);
-							if (GUILayout.Button("Delete"))
-								Instance.DeleteBuildAction(activeBuildAction.Key);
-							continue;
-						}
+                        if (activeBuildAction.Value == null)
+                        {
+                            EditorGUILayout.HelpBox($"The action {activeBuildAction.Key} no longer exists!",
+                                MessageType.Error);
+                            if (GUILayout.Button("Delete"))
+                                Instance.DeleteBuildAction(activeBuildAction.Key);
+                            continue;
+                        }
 
-						//Draw the build action's OnGUI
-						EditorGUILayout.LabelField(activeBuildAction.Key, GUIStyles.DropdownHeaderStyle);
-						activeBuildAction.Value.OnGUI();
+                        //Draw the build action's OnGUI
+                        EditorGUILayout.LabelField(activeBuildAction.Key, GUIStyles.DropdownHeaderStyle);
+                        activeBuildAction.Value.OnGUI();
 
-						//Delete button
-						if (GUILayout.Button("Delete"))
-							Instance.DeleteBuildAction(activeBuildAction.Key);
+                        //Delete button
+                        if (GUILayout.Button("Delete"))
+                            Instance.DeleteBuildAction(activeBuildAction.Key);
 
-						EditorGUILayout.EndVertical();
+                        EditorGUILayout.EndVertical();
 
-						if(!activeBuildAction.Equals(Instance.activeBuildActions.Last()))
-							EditorGUILayout.Space();
-					}
-				}
-				catch(InvalidOperationException)
-				{
-				}
-				
-				EditorGUILayout.EndVertical();
-			}
+                        if (!activeBuildAction.Equals(Instance.activeBuildActions.Last()))
+                            EditorGUILayout.Space();
+                    }
+                }
+                catch (InvalidOperationException)
+                {
+                }
 
-			EditorGUILayout.Space(8f);
-		}
+                EditorGUILayout.EndVertical();
+            }
 
-		private void AddBuildAction(string action)
-		{
-			if(activeBuildActions.ContainsKey(action))
-				return;
+            EditorGUILayout.Space(8f);
+        }
 
-			//First, get if that action still exists
-			Type actionType = availableActions.FirstOrDefault(x => x.Name == action);
-			if (actionType == null)
-			{
-				activeBuildActions.Add(action, null);
-				return;
-			}
+        private void AddBuildAction(string action)
+        {
+            if (activeBuildActions.ContainsKey(action))
+                return;
 
-			//Now to create it
-			IBuildAction buildAction = (IBuildAction)Activator.CreateInstance(actionType);
-			activeBuildActions.Add(action, buildAction);
+            //First, get if that action still exists
+            Type actionType = availableActions.FirstOrDefault(x => x.Name == action);
+            if (actionType == null)
+            {
+                activeBuildActions.Add(action, null);
+                return;
+            }
 
-			List<string> currentBuildActions = SettingsManager.BuildActions;
-			if(currentBuildActions.Contains(action))
-				return;
+            //Now to create it
+            IBuildAction buildAction = (IBuildAction)Activator.CreateInstance(actionType);
+            activeBuildActions.Add(action, buildAction);
 
-			currentBuildActions.Add(action);
-			SettingsManager.BuildActions = currentBuildActions;
-		}
+            List<string> currentBuildActions = SettingsManager.BuildActions;
+            if (currentBuildActions.Contains(action))
+                return;
 
-		private void DeleteBuildAction(string action)
-		{
-			if (!activeBuildActions.ContainsKey(action))
-			{
-				return;
-			}
+            currentBuildActions.Add(action);
+            SettingsManager.BuildActions = currentBuildActions;
+        }
 
-			activeBuildActions.Remove(action);
+        private void DeleteBuildAction(string action)
+        {
+            if (!activeBuildActions.ContainsKey(action)) return;
 
-			List<string> currentBuildActions = SettingsManager.BuildActions;
-			currentBuildActions.Remove(action);
-			SettingsManager.BuildActions = currentBuildActions;
-		}
-	}
+            activeBuildActions.Remove(action);
 
+            List<string> currentBuildActions = SettingsManager.BuildActions;
+            currentBuildActions.Remove(action);
+            SettingsManager.BuildActions = currentBuildActions;
+        }
+    }
 }

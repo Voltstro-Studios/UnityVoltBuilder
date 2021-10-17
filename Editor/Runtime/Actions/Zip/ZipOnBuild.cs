@@ -1,5 +1,4 @@
 ﻿#if ZIP //We can only do this if the com.unity.sharp-zip-lib package is installed
-
 using System.Diagnostics;
 using System.IO;
 using Unity.SharpZipLib.Utils;

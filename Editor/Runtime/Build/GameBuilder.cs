@@ -5,206 +5,211 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using VoltUnityBuilder.Actions;
-using VoltUnityBuilder.GUI;
-using VoltUnityBuilder.Settings;
+using UnityVoltBuilder.Actions;
+using UnityVoltBuilder.GUI;
+using UnityVoltBuilder.Settings;
 using Debug = UnityEngine.Debug;
 
-namespace VoltUnityBuilder.Build
+namespace UnityVoltBuilder.Build
 {
-	public static class GameBuilder
-	{
-		private const string CopyPdbFilesEditorString = "CopyPDBFiles";
+    public static class GameBuilder
+    {
+        private const string CopyPdbFilesEditorString = "CopyPDBFiles";
 
-		internal static void DrawOptions()
-		{
-			EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
+        internal static void DrawOptions()
+        {
+            EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
-			GUILayout.Label("Build Commands", GUIStyles.DropdownHeaderStyle);
+            GUILayout.Label("Build Commands", GUIStyles.DropdownHeaderStyle);
 
-			EditorGUILayout.BeginHorizontal();
-			if (GUILayout.Button("Build Player"))
-				BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}");
-			if (GUILayout.Button("Scripts Only"))
-				BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}", true);
-			EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Build Player"))
+                BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}");
+            if (GUILayout.Button("Scripts Only"))
+                BuildGameGUI($"{GetBuildDirectory()}{PlayerSettings.productName}-Quick/{PlayerSettings.productName}",
+                    true);
+            EditorGUILayout.EndHorizontal();
 
-			EditorGUILayout.BeginHorizontal();
-			if (GUILayout.Button("New Build"))
-				BuildGameGUI(
-					$"{GetBuildDirectory()}{PlayerSettings.productName}-{DateTime.Now.ToString(SettingsManager.BuildFolderNameStyle)}/{PlayerSettings.productName}");
-			if (GUILayout.Button("Open Build Folder"))
-			{
-				if (!Directory.Exists(GetBuildDirectory()))
-					Directory.CreateDirectory(GetBuildDirectory());
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("New Build"))
+                BuildGameGUI(
+                    $"{GetBuildDirectory()}{PlayerSettings.productName}-{DateTime.Now.ToString(SettingsManager.BuildFolderNameStyle)}/{PlayerSettings.productName}");
+            if (GUILayout.Button("Open Build Folder"))
+            {
+                if (!Directory.Exists(GetBuildDirectory()))
+                    Directory.CreateDirectory(GetBuildDirectory());
 
-				Process.Start(GetBuildDirectory());
-			}
+                Process.Start(GetBuildDirectory());
+            }
 
-			EditorGUILayout.EndHorizontal();
+            EditorGUILayout.EndHorizontal();
 
-			EditorGUILayout.EndVertical();
-		}
+            EditorGUILayout.EndVertical();
+        }
 
-		private static void BuildGameGUI(string buildDir, bool scriptsOnly = false)
-		{
-			BuildGame(buildDir, SettingsManager.BuildTarget, SettingsManager.ServerBuild, SettingsManager.DevelopmentBuild, 
-				SettingsManager.AutoconnectProfiler, SettingsManager.DeepProfiling, SettingsManager.ScriptDebugging, 
-				SettingsManager.CopyPdbFiles, scriptsOnly);
-			GUIUtility.ExitGUI();
-		}
+        private static void BuildGameGUI(string buildDir, bool scriptsOnly = false)
+        {
+            BuildGame(buildDir, SettingsManager.BuildTarget, SettingsManager.ServerBuild,
+                SettingsManager.DevelopmentBuild,
+                SettingsManager.AutoconnectProfiler, SettingsManager.DeepProfiling, SettingsManager.ScriptDebugging,
+                SettingsManager.CopyPdbFiles, scriptsOnly);
+            GUIUtility.ExitGUI();
+        }
 
-		public static void BuildGame(string buildDir, BuildTarget buildTarget, bool headLessBuild, bool devBuild = false, bool autoConnectProfiler = false, 
-			bool deepProfiling = false, bool scriptDebugging = false, bool copyPdbFiles = false, bool scriptsOnly = false)
-		{
-			Debug.Log($"Starting game build at {DateTime.Now:G}...");
-			Stopwatch stopwatch = Stopwatch.StartNew();
+        public static void BuildGame(string buildDir, BuildTarget buildTarget, bool headLessBuild,
+            bool devBuild = false, bool autoConnectProfiler = false,
+            bool deepProfiling = false, bool scriptDebugging = false, bool copyPdbFiles = false,
+            bool scriptsOnly = false)
+        {
+            Debug.Log($"Starting game build at {DateTime.Now:G}...");
+            Stopwatch stopwatch = Stopwatch.StartNew();
 
-			if (buildTarget == BuildTarget.StandaloneWindows || buildTarget == BuildTarget.StandaloneWindows64)
-				buildDir += ".exe";
+            if (buildTarget == BuildTarget.StandaloneWindows || buildTarget == BuildTarget.StandaloneWindows64)
+                buildDir += ".exe";
 
-			Debug.Log($"Building to '{buildDir}'...");
+            Debug.Log($"Building to '{buildDir}'...");
 
-			//Set target group
-			#region Target Group
+            //Set target group
 
-			BuildTargetGroup targetGroup;
-			switch (buildTarget)
-			{
-				case BuildTarget.StandaloneLinux64:
-				case BuildTarget.StandaloneWindows64:
-				case BuildTarget.StandaloneOSX:
-				case BuildTarget.StandaloneWindows:
-					targetGroup = BuildTargetGroup.Standalone;
-					break;
-				case BuildTarget.iOS:
-					targetGroup = BuildTargetGroup.iOS;
-					break;
-				case BuildTarget.Android:
-					targetGroup = BuildTargetGroup.Android;
-					break;
-				case BuildTarget.WebGL:
-					targetGroup = BuildTargetGroup.WebGL;
-					break;
-				case BuildTarget.WSAPlayer:
-					targetGroup = BuildTargetGroup.WSA;
-					break;
-				case BuildTarget.PS4:
-					targetGroup = BuildTargetGroup.PS4;
-					break;
-				case BuildTarget.XboxOne:
-					targetGroup = BuildTargetGroup.XboxOne;
-					break;
-				case BuildTarget.tvOS:
-					targetGroup = BuildTargetGroup.tvOS;
-					break;
-				case BuildTarget.Switch:
-					targetGroup = BuildTargetGroup.Switch;
-					break;
-				case BuildTarget.Lumin:
-					targetGroup = BuildTargetGroup.Lumin;
-					break;
-				case BuildTarget.Stadia:
-					targetGroup = BuildTargetGroup.Stadia;
-					break;
-				case BuildTarget.CloudRendering:
-					targetGroup = BuildTargetGroup.CloudRendering;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+            #region Target Group
 
-			#endregion
+            BuildTargetGroup targetGroup;
+            switch (buildTarget)
+            {
+                case BuildTarget.StandaloneLinux64:
+                case BuildTarget.StandaloneWindows64:
+                case BuildTarget.StandaloneOSX:
+                case BuildTarget.StandaloneWindows:
+                    targetGroup = BuildTargetGroup.Standalone;
+                    break;
+                case BuildTarget.iOS:
+                    targetGroup = BuildTargetGroup.iOS;
+                    break;
+                case BuildTarget.Android:
+                    targetGroup = BuildTargetGroup.Android;
+                    break;
+                case BuildTarget.WebGL:
+                    targetGroup = BuildTargetGroup.WebGL;
+                    break;
+                case BuildTarget.WSAPlayer:
+                    targetGroup = BuildTargetGroup.WSA;
+                    break;
+                case BuildTarget.PS4:
+                    targetGroup = BuildTargetGroup.PS4;
+                    break;
+                case BuildTarget.XboxOne:
+                    targetGroup = BuildTargetGroup.XboxOne;
+                    break;
+                case BuildTarget.tvOS:
+                    targetGroup = BuildTargetGroup.tvOS;
+                    break;
+                case BuildTarget.Switch:
+                    targetGroup = BuildTargetGroup.Switch;
+                    break;
+                case BuildTarget.Lumin:
+                    targetGroup = BuildTargetGroup.Lumin;
+                    break;
+                case BuildTarget.Stadia:
+                    targetGroup = BuildTargetGroup.Stadia;
+                    break;
+                case BuildTarget.CloudRendering:
+                    targetGroup = BuildTargetGroup.CloudRendering;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
-			//Setup build options
-			BuildOptions options = BuildOptions.None;
+            #endregion
 
-			//Server/Headless mode
-			if (headLessBuild)
-				options |= BuildOptions.EnableHeadlessMode;
+            //Setup build options
+            BuildOptions options = BuildOptions.None;
 
-			//Copy PDB files
-			string existingCopyPdbFilesOptions =
-				EditorUserBuildSettings.GetPlatformSettings("Standalone", CopyPdbFilesEditorString);
+            //Server/Headless mode
+            if (headLessBuild)
+                options |= BuildOptions.EnableHeadlessMode;
 
-			if (copyPdbFiles)
-				EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
-					SettingsManager.CopyPdbFiles ? "true" : "false");
+            //Copy PDB files
+            string existingCopyPdbFilesOptions =
+                EditorUserBuildSettings.GetPlatformSettings("Standalone", CopyPdbFilesEditorString);
 
-			//Dev build
-			if (devBuild)
-			{
-				options |= BuildOptions.Development;
+            if (copyPdbFiles)
+                EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
+                    SettingsManager.CopyPdbFiles ? "true" : "false");
 
-				if (autoConnectProfiler)
-					options |= BuildOptions.ConnectWithProfiler;
+            //Dev build
+            if (devBuild)
+            {
+                options |= BuildOptions.Development;
 
-				if (deepProfiling)
-					options |= BuildOptions.EnableDeepProfilingSupport;
+                if (autoConnectProfiler)
+                    options |= BuildOptions.ConnectWithProfiler;
 
-				if (scriptDebugging)
-					options |= BuildOptions.AllowDebugging;
-			}
+                if (deepProfiling)
+                    options |= BuildOptions.EnableDeepProfilingSupport;
 
-			//Scripts only
-			if (scriptsOnly)
-				options |= BuildOptions.BuildScriptsOnly;
+                if (scriptDebugging)
+                    options |= BuildOptions.AllowDebugging;
+            }
 
-			//Run build action pre-build
-			Debug.Log("Running build actions pre build...");
-			try
-			{
-				BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), buildTarget, ref options);
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError($"An error occurred while running a build action's pre build! {ex}");
-			}
+            //Scripts only
+            if (scriptsOnly)
+                options |= BuildOptions.BuildScriptsOnly;
 
-			Debug.Log("Build actions pre build done!");
+            //Run build action pre-build
+            Debug.Log("Running build actions pre build...");
+            try
+            {
+                BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), buildTarget, ref options);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while running a build action's pre build! {ex}");
+            }
 
-			Debug.Log("Building player...");
+            Debug.Log("Build actions pre build done!");
 
-			//Build the player
-			BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
-			{
-				locationPathName = buildDir,
-				target = buildTarget,
-				options = options,
-				targetGroup = targetGroup,
-				scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray()
-			});
+            Debug.Log("Building player...");
 
-			//Set CopyPDBFiles to it's original setting
-			EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
-				existingCopyPdbFilesOptions);
+            //Build the player
+            BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+            {
+                locationPathName = buildDir,
+                target = buildTarget,
+                options = options,
+                targetGroup = targetGroup,
+                scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray()
+            });
 
-			//If the build failed
-			if (report.summary.result != BuildResult.Succeeded)
-			{
-				stopwatch.Stop();
-				Debug.LogError($"Build failed for some reason! Completed in {stopwatch.ElapsedMilliseconds / 1000}s.");
-				return;
-			}
+            //Set CopyPDBFiles to it's original setting
+            EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
+                existingCopyPdbFilesOptions);
 
-			//Run Build Action post build
-			try
-			{
-				BuildActions.RunPostActions(Path.GetDirectoryName(buildDir), report);
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError($"An error occurred while running a build action's post build! {ex}");
-			}
+            //If the build failed
+            if (report.summary.result != BuildResult.Succeeded)
+            {
+                stopwatch.Stop();
+                Debug.LogError($"Build failed for some reason! Completed in {stopwatch.ElapsedMilliseconds / 1000}s.");
+                return;
+            }
 
-			//End
-			stopwatch.Stop();
-			Debug.Log($"Build done in {stopwatch.ElapsedMilliseconds / 1000}s!");
-		}
+            //Run Build Action post build
+            try
+            {
+                BuildActions.RunPostActions(Path.GetDirectoryName(buildDir), report);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while running a build action's post build! {ex}");
+            }
 
-		public static string GetBuildDirectory()
-		{
-			return $"{Application.dataPath.Replace("Assets", "")}{SettingsManager.BuildLocation}";
-		}
-	}
+            //End
+            stopwatch.Stop();
+            Debug.Log($"Build done in {stopwatch.ElapsedMilliseconds / 1000}s!");
+        }
+
+        public static string GetBuildDirectory()
+        {
+            return $"{Application.dataPath.Replace("Assets", "")}{SettingsManager.BuildLocation}";
+        }
+    }
 }

@@ -1,6 +1,6 @@
-# UnityVoltBuilderTool
+# Unity Volt Builder
 
-[![License](https://img.shields.io/github/license/voltstro/UnityVoltBuilderTool.svg)](/LICENSE)
+[![License](https://img.shields.io/github/license/Voltstro-Studios/VoltUnityBuilder.svg)](/LICENSE.md)
 [![Discord](https://img.shields.io/badge/Discord-Voltstro-7289da.svg?logo=discord)](https://discord.voltstro.dev) 
 [![YouTube](https://img.shields.io/badge/Youtube-Voltstro-red.svg?logo=youtube)](https://www.youtube.com/Voltstro)
 
@@ -23,7 +23,7 @@ To install it via the package manager you will need to:
 
 1. Open up the package manager via Windows **->** Package Manager
 2. Click on the little + sign **->** Add package from git URL...
-3. Type `https://github.com/VoltUnityPackages/VoltUnityBuilder.git` and add it
+3. Type `https://github.com/Voltstro-Studios/UnityVoltBuilder.git` and add it
 4. Unity will now download and install the package
 
 # Using the tool
@@ -32,13 +32,7 @@ To use the tool, go to Tools **->** Volt Unity Builder **->** Volt Builder. It w
 
 ![Preview](preview.jpg)
 
-Its recommended to dock the window somewhere for convince.
-
-## Supported Versions
-
-This tool was built and tested for Unity 2019.4 on Windows. 
-
-Other OSes should work; however, no testing has been done on them.
+It is recommended to dock the window somewhere for convince.
 
 ## Build Actions
 
@@ -82,4 +76,4 @@ After that, the tool will automaticaly add it as a selectable option in the drop
 Voltstro – *Initial Work* – [Voltstro](https://github.com/Voltstro)
 
 # License
-This project is licensed under the Apache-2.0 license – see the [LICENSE](/LICENSE) file for details.
+This project is licensed under the Apache-2.0 license – see the [LICENSE](/LICENSE.md) file for details.

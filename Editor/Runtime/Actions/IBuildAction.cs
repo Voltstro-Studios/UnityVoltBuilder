@@ -1,14 +1,14 @@
 ﻿using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace VoltUnityBuilder.Actions
+namespace UnityVoltBuilder.Actions
 {
-	public interface IBuildAction
-	{
-		void OnGUI();
+    public interface IBuildAction
+    {
+        void OnGUI();
 
-		void OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions);
+        void OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions);
 
-		void OnAfterBuild(string buildLocation, BuildReport report);
-	}
+        void OnAfterBuild(string buildLocation, BuildReport report);
+    }
 }
