@@ -1,53 +1,13 @@
 ﻿using System.Diagnostics;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityVoltBuilder.Settings;
 
 namespace UnityVoltBuilder.Actions
 {
-    internal sealed class RunOnBuild : IBuildAction
+    public sealed class RunOnBuild : IBuildAction
     {
-        private const string SettingsRunOnBuild = "RunOnBuild";
-        private const string SettingArguments = "RunOnBuildArguments";
-
-        private bool RunOnBuildSetting
-        {
-            get
-            {
-                if (!SettingsManager.Instance.ContainsKey<bool>(SettingsRunOnBuild))
-                {
-                    SettingsManager.Instance.Set(SettingsRunOnBuild, true);
-                    SettingsManager.Instance.Save();
-                }
-
-                return SettingsManager.Instance.Get<bool>(SettingsRunOnBuild);
-            }
-            set
-            {
-                SettingsManager.Instance.Set(SettingsRunOnBuild, value);
-                SettingsManager.Instance.Save();
-            }
-        }
-
-        private string RunOnBuildArguments
-        {
-            get
-            {
-                if (!SettingsManager.Instance.ContainsKey<bool>(SettingArguments))
-                {
-                    SettingsManager.Instance.Set(SettingArguments, "");
-                    SettingsManager.Instance.Save();
-                }
-
-                return SettingsManager.Instance.Get<string>(SettingArguments);
-            }
-            set
-            {
-                SettingsManager.Instance.Set(SettingArguments, value);
-                SettingsManager.Instance.Save();
-            }
-        }
-
         public void OnGUI()
         {
             RunOnBuildSetting = EditorGUILayout.Toggle("Run on Build", RunOnBuildSetting);
@@ -64,6 +24,24 @@ namespace UnityVoltBuilder.Actions
         {
             if (RunOnBuildSetting)
                 Process.Start(buildLocation, RunOnBuildArguments);
+        }
+        
+        private const string RunOnBuildSettingKey = "RunOnBuild";
+        
+        [PublicAPI]
+        public static bool RunOnBuildSetting
+        {
+            get => SettingsManager.AddOrGetOption(RunOnBuildSettingKey, true);
+            set => SettingsManager.SetOption(RunOnBuildSettingKey, value);
+        }
+
+        private const string RunOnBuildArgumentsKey = "RunOnBuildArguments";
+        
+        [PublicAPI]
+        public static string RunOnBuildArguments
+        {
+            get => SettingsManager.AddOrGetOption(RunOnBuildArgumentsKey, string.Empty);
+            set => SettingsManager.SetOption(RunOnBuildArgumentsKey, value);
         }
     }
 }

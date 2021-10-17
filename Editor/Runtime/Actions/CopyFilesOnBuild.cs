@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -8,44 +9,25 @@ using UnityVoltBuilder.Settings;
 
 namespace UnityVoltBuilder.Actions
 {
-    internal sealed class CopyFilesOnBuild : IBuildAction
+    public sealed class CopyFilesOnBuild : IBuildAction
     {
-        private static List<string> FilesToCopy
+        //TODO: Surely we can use a single struct for this?
+        private const string FilesToCopyKey = "FilesToCopy";
+        
+        [PublicAPI]
+        public static List<string> FilesToCopy
         {
-            get
-            {
-                if (!SettingsManager.Instance.ContainsKey<List<string>>("FilesToCopy"))
-                {
-                    SettingsManager.Instance.Set("FilesToCopy", new List<string>());
-                    SettingsManager.Instance.Save();
-                }
-
-                return SettingsManager.Instance.Get<List<string>>("FilesToCopy");
-            }
-            set
-            {
-                SettingsManager.Instance.Set("FilesToCopy", value);
-                SettingsManager.Instance.Save();
-            }
+            get => SettingsManager.AddOrGetOption(FilesToCopyKey, new List<string>());
+            set => SettingsManager.SetOption(FilesToCopyKey, value);
         }
 
-        private static List<string> CopyToWhere
+        private const string CopyToWhereKey = "CopyToWhere";
+        
+        [PublicAPI]
+        public static List<string> CopyToWhere
         {
-            get
-            {
-                if (!SettingsManager.Instance.ContainsKey<List<string>>("CopyToWhere"))
-                {
-                    SettingsManager.Instance.Set("CopyToWhere", new List<string>());
-                    SettingsManager.Instance.Save();
-                }
-
-                return SettingsManager.Instance.Get<List<string>>("CopyToWhere");
-            }
-            set
-            {
-                SettingsManager.Instance.Set("CopyToWhere", value);
-                SettingsManager.Instance.Save();
-            }
+            get => SettingsManager.AddOrGetOption(CopyToWhereKey, new List<string>());
+            set => SettingsManager.SetOption(CopyToWhereKey, value);
         }
 
         public void OnGUI()

@@ -11,7 +11,7 @@ namespace UnityVoltBuilder.GUI
         {
             //Main title
             EditorGUILayout.Space(2f);
-            EditorGUILayout.LabelField("Volt Unity Builder", GUIStyles.TitleStyle);
+            EditorGUILayout.LabelField("Unity Volt Builder", GUIStyles.TitleStyle);
             EditorGUILayout.Space(15f);
 
             BuildSettings.DrawOptions();

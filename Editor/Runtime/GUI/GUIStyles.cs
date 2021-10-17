@@ -3,16 +3,20 @@ using UnityEngine;
 
 namespace UnityVoltBuilder.GUI
 {
-    internal class GUIStyles
+    /// <summary>
+    ///     Has GUI styles that is used by UnityVoltBuilder
+    /// </summary>
+    public class GUIStyles
     {
         private static GUIStyles instance;
+        
         private readonly GUIStyle dropdownButtonStyle;
         private readonly GUIStyle dropdownContentStyle;
         private readonly GUIStyle dropdownHeaderStyle;
 
         private readonly GUIStyle titleStyle;
 
-        internal GUIStyles()
+        private GUIStyles()
         {
             //Title Style
             titleStyle = new GUIStyle(EditorStyles.boldLabel)
@@ -42,7 +46,12 @@ namespace UnityVoltBuilder.GUI
 
         #region Internal Functions
 
-        internal static void DrawDropdownButton(string text, ref bool dropdown)
+        /// <summary>
+        ///     Draw a dropdown button
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="dropdown"></param>
+        public static void DrawDropdownButton(string text, ref bool dropdown)
         {
             if (GUILayout.Button(text, instance.dropdownButtonStyle)) dropdown = !dropdown;
         }
@@ -54,7 +63,7 @@ namespace UnityVoltBuilder.GUI
         /// <summary>
         ///     Active <see cref="GUIStyles" /> instance
         /// </summary>
-        internal static GUIStyles Instance
+        private static GUIStyles Instance
         {
             get
             {
@@ -68,11 +77,17 @@ namespace UnityVoltBuilder.GUI
         /// <summary>
         ///     Main title style
         /// </summary>
-        internal static GUIStyle TitleStyle => Instance.titleStyle;
+        public static GUIStyle TitleStyle => Instance.titleStyle;
 
-        internal static GUIStyle DropdownContentStyle => Instance.dropdownContentStyle;
+        /// <summary>
+        ///     Style for dropdown content
+        /// </summary>
+        public static GUIStyle DropdownContentStyle => Instance.dropdownContentStyle;
 
-        internal static GUIStyle DropdownHeaderStyle => Instance.dropdownHeaderStyle;
+        /// <summary>
+        ///     Style for dropdown header
+        /// </summary>
+        public static GUIStyle DropdownHeaderStyle => Instance.dropdownHeaderStyle;
 
         #endregion
     }

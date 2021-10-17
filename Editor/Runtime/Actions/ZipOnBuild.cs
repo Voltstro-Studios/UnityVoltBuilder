@@ -2,6 +2,7 @@
 
 using System.Diagnostics;
 using System.IO;
+using JetBrains.Annotations;
 using Unity.SharpZipLib.Utils;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -42,6 +43,7 @@ namespace UnityVoltBuilder.Actions
 
 		private const string ZipBuildKey = "ZipBuild";
 
+		[PublicAPI]
 		public static bool ZipBuild
 		{
 			get => SettingsManager.AddOrGetOption(ZipBuildKey, true);
