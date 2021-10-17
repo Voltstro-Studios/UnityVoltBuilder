@@ -59,9 +59,11 @@ namespace UnityVoltBuilder.Build
         /// </summary>
         /// <returns></returns>
         [PublicAPI]
-        public static GameBuildOptions ToGameBuildOptions(string buildLocation, bool scriptsOnly) => new GameBuildOptions(
-            buildLocation, 
+        public static GameBuildOptions ToGameBuildOptions(string buildLocation, bool scriptsOnly) => 
+            new GameBuildOptions(
+            buildLocation,
             SettingsManager.BuildTarget,
+            BuildActions.GetBuildActions(),
             SettingsManager.ServerBuild, 
             SettingsManager.DevelopmentBuild, 
             SettingsManager.AutoconnectProfiler, 
@@ -80,15 +82,16 @@ namespace UnityVoltBuilder.Build
         {
             Debug.Log($"Starting game build at {DateTime.Now:G}...");
             Stopwatch stopwatch = Stopwatch.StartNew();
-
-            string buildDir = gameBuildOptions.BuildDir;
+            
+            string fullBuildDir = gameBuildOptions.BuildDir;
             if (gameBuildOptions.BuildTarget == BuildTarget.StandaloneWindows || gameBuildOptions.BuildTarget == BuildTarget.StandaloneWindows64)
-                buildDir += ".exe";
+                fullBuildDir += ".exe";
 
-            Debug.Log($"Building to '{buildDir}'...");
+            string buildDir = Path.GetDirectoryName(fullBuildDir);
+            
+            Debug.Log($"Building to '{fullBuildDir}'...");
 
             //Set target group
-
             #region Target Group
 
             BuildTargetGroup targetGroup;
@@ -177,7 +180,8 @@ namespace UnityVoltBuilder.Build
             Debug.Log("Running build actions pre build...");
             try
             {
-                BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), gameBuildOptions.BuildTarget, ref options);
+                foreach (IBuildAction buildAction in gameBuildOptions.BuildActions)
+                    buildAction?.OnBeforeBuild(buildDir, gameBuildOptions.BuildTarget, ref options);
             }
             catch (Exception ex)
             {
@@ -191,7 +195,7 @@ namespace UnityVoltBuilder.Build
             //Build the player
             BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
-                locationPathName = buildDir,
+                locationPathName = fullBuildDir,
                 target = gameBuildOptions.BuildTarget,
                 options = options,
                 targetGroup = targetGroup,
@@ -213,7 +217,8 @@ namespace UnityVoltBuilder.Build
             //Run Build Action post build
             try
             {
-                BuildActions.RunPostActions(Path.GetDirectoryName(buildDir), report);
+                foreach (IBuildAction buildAction in gameBuildOptions.BuildActions)
+                    buildAction?.OnAfterBuild(buildDir, report);
             }
             catch (Exception ex)
             {
@@ -225,6 +230,11 @@ namespace UnityVoltBuilder.Build
             Debug.Log($"Build done in {stopwatch.ElapsedMilliseconds / 1000}s!");
         }
 
+        /// <summary>
+        ///     Gets the set build directory
+        /// </summary>
+        /// <returns></returns>
+        [PublicAPI]
         public static string GetBuildDirectory()
         {
             return $"{Application.dataPath.Replace("Assets", "")}{SettingsManager.BuildLocation}";

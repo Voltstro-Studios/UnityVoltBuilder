@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityVoltBuilder.Actions;
 
 namespace UnityVoltBuilder.Build
 {
@@ -25,7 +27,9 @@ namespace UnityVoltBuilder.Build
 
         public readonly bool ScriptsOnly;
 
-        public GameBuildOptions(string buildDir, BuildTarget buildTarget, 
+        public readonly List<IBuildAction> BuildActions;
+
+        public GameBuildOptions(string buildDir, BuildTarget buildTarget, List<IBuildAction> buildActions = null,
             bool headlessBuild = false, 
             bool devBuild = false, 
             bool autoConnectProfiler = false, 
@@ -43,6 +47,10 @@ namespace UnityVoltBuilder.Build
             ScriptDebugging = scriptDebugging;
             CopyPdbFiles = copyPdbFiles;
             ScriptsOnly = scriptsOnly;
+
+            BuildActions = buildActions;
+            if (buildActions == null)
+                BuildActions = new List<IBuildAction>();
         }
     }
 }

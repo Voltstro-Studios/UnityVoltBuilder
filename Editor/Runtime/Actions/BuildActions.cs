@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEditor;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityVoltBuilder.GUI;
 using UnityVoltBuilder.Settings;
 
 namespace UnityVoltBuilder.Actions
 {
-    internal class BuildActions
+    public class BuildActions
     {
         private static BuildActions instance;
 
@@ -20,7 +20,7 @@ namespace UnityVoltBuilder.Actions
         private readonly List<Type> availableActions;
         private readonly string[] dropdownOptions;
 
-        internal BuildActions()
+        private BuildActions()
         {
             activeBuildActions = new Dictionary<string, IBuildAction>();
             availableActions = AppDomain.CurrentDomain.GetAssemblies()
@@ -35,27 +35,16 @@ namespace UnityVoltBuilder.Actions
         /// <summary>
         ///     Active <see cref="BuildActions" /> instance
         /// </summary>
-        internal static BuildActions Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new BuildActions();
+        private static BuildActions Instance => instance ??= new BuildActions();
 
-                return instance;
-            }
-        }
-
-        internal static void RunPreActions(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)
+        /// <summary>
+        ///     Gets all active <see cref="IBuildAction"/>s
+        /// </summary>
+        /// <returns></returns>
+        [PublicAPI]
+        public static List<IBuildAction> GetBuildActions()
         {
-            foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
-                activeBuildAction.Value?.OnBeforeBuild(buildLocation, buildTarget, ref buildOptions);
-        }
-
-        internal static void RunPostActions(string buildLocation, BuildReport report)
-        {
-            foreach (KeyValuePair<string, IBuildAction> activeBuildAction in Instance.activeBuildActions)
-                activeBuildAction.Value?.OnAfterBuild(buildLocation, report);
+            return Instance.activeBuildActions.Values.ToList();
         }
 
         internal static void DrawOptions()

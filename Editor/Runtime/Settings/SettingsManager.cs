@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEditor;
-using UnityVoltBuilder.Build;
 
 namespace UnityVoltBuilder.Settings
 {
@@ -10,6 +10,7 @@ namespace UnityVoltBuilder.Settings
 	///         Feel free to use this to store your settings for your custom build actions
 	///     </para>
 	/// </summary>
+	[PublicAPI]
 	public static class SettingsManager
     {
         //Name has stayed the same for backwards compatibility

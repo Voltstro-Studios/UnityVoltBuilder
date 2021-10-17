@@ -3,6 +3,9 @@ using UnityEditor.Build.Reporting;
 
 namespace UnityVoltBuilder.Actions
 {
+    /// <summary>
+    ///     Interface for a build action
+    /// </summary>
     public interface IBuildAction
     {
         void OnGUI();

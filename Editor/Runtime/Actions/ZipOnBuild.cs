@@ -28,12 +28,14 @@ namespace UnityVoltBuilder.Actions
 			
 			Debug.Log("Compressing build...");
 			
+			EditorUtility.DisplayProgressBar("Compressing build...", "Compressing build...", 0.5f);
 			Stopwatch stopwatch = Stopwatch.StartNew();
 			
 			string outPath = $"{buildLocation}/../{Path.GetFileName(buildLocation)}.zip";
 			ZipUtility.CompressFolderToZip(outPath, null, buildLocation);
 
 			stopwatch.Stop();
+			EditorUtility.ClearProgressBar();
 			
 			Debug.Log($"Compressed build to {outPath}. Took {stopwatch.Elapsed.Seconds}s to compress.");
 		}
