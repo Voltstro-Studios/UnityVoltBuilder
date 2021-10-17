@@ -1,18 +1,25 @@
 {
-  "name": "UnityVoltBuilder",
-  "rootNamespace": "UnityVoltBuilder",
-  "references": [
-    "GUID:49818357e697641afb75d2f8acaf1861"
-  ],
-  "includePlatforms": [
-    "Editor"
-  ],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [],
-  "versionDefines": [],
-  "noEngineReferences": false
+    "name": "UnityVoltBuilder",
+    "rootNamespace": "UnityVoltBuilder",
+    "references": [
+        "GUID:49818357e697641afb75d2f8acaf1861",
+        "GUID:8c1b5e158961445498f8a66188fbb2e3"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.sharp-zip-lib",
+            "expression": "1.2.0",
+            "define": "ZIPPING_SUPPORT"
+        }
+    ],
+    "noEngineReferences": false
 }
