@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -49,22 +50,39 @@ namespace UnityVoltBuilder.Build
 
         private static void BuildGameGUI(string buildDir, bool scriptsOnly = false)
         {
-            BuildGame(buildDir, SettingsManager.BuildTarget, SettingsManager.ServerBuild,
-                SettingsManager.DevelopmentBuild,
-                SettingsManager.AutoconnectProfiler, SettingsManager.DeepProfiling, SettingsManager.ScriptDebugging,
-                SettingsManager.CopyPdbFiles, scriptsOnly);
+            BuildGame(ToGameBuildOptions(buildDir, scriptsOnly));
             GUIUtility.ExitGUI();
         }
+        
+        /// <summary>
+        ///     Takes all the options in <see cref="SettingsManager"/> and converts them to a <see cref="GameBuildOptions"/>
+        /// </summary>
+        /// <returns></returns>
+        [PublicAPI]
+        public static GameBuildOptions ToGameBuildOptions(string buildLocation, bool scriptsOnly) => new GameBuildOptions(
+            buildLocation, 
+            SettingsManager.BuildTarget,
+            SettingsManager.ServerBuild, 
+            SettingsManager.DevelopmentBuild, 
+            SettingsManager.AutoconnectProfiler, 
+            SettingsManager.DeepProfiling, 
+            SettingsManager.ScriptDebugging, 
+            SettingsManager.CopyPdbFiles,
+            scriptsOnly);
 
-        public static void BuildGame(string buildDir, BuildTarget buildTarget, bool headLessBuild,
-            bool devBuild = false, bool autoConnectProfiler = false,
-            bool deepProfiling = false, bool scriptDebugging = false, bool copyPdbFiles = false,
-            bool scriptsOnly = false)
+        /// <summary>
+        ///     Builds the game
+        /// </summary>
+        /// <param name="gameBuildOptions"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        [PublicAPI]
+        public static void BuildGame(GameBuildOptions gameBuildOptions)
         {
             Debug.Log($"Starting game build at {DateTime.Now:G}...");
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            if (buildTarget == BuildTarget.StandaloneWindows || buildTarget == BuildTarget.StandaloneWindows64)
+            string buildDir = gameBuildOptions.BuildDir;
+            if (gameBuildOptions.BuildTarget == BuildTarget.StandaloneWindows || gameBuildOptions.BuildTarget == BuildTarget.StandaloneWindows64)
                 buildDir += ".exe";
 
             Debug.Log($"Building to '{buildDir}'...");
@@ -74,7 +92,7 @@ namespace UnityVoltBuilder.Build
             #region Target Group
 
             BuildTargetGroup targetGroup;
-            switch (buildTarget)
+            switch (gameBuildOptions.BuildTarget)
             {
                 case BuildTarget.StandaloneLinux64:
                 case BuildTarget.StandaloneWindows64:
@@ -125,41 +143,41 @@ namespace UnityVoltBuilder.Build
             BuildOptions options = BuildOptions.None;
 
             //Server/Headless mode
-            if (headLessBuild)
+            if (gameBuildOptions.HeadlessBuild)
                 options |= BuildOptions.EnableHeadlessMode;
 
             //Copy PDB files
             string existingCopyPdbFilesOptions =
                 EditorUserBuildSettings.GetPlatformSettings("Standalone", CopyPdbFilesEditorString);
 
-            if (copyPdbFiles)
+            if (gameBuildOptions.CopyPdbFiles)
                 EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
                     SettingsManager.CopyPdbFiles ? "true" : "false");
 
             //Dev build
-            if (devBuild)
+            if (gameBuildOptions.DevBuild)
             {
                 options |= BuildOptions.Development;
 
-                if (autoConnectProfiler)
+                if (gameBuildOptions.AutoConnectProfiler)
                     options |= BuildOptions.ConnectWithProfiler;
 
-                if (deepProfiling)
+                if (gameBuildOptions.DeepProfiling)
                     options |= BuildOptions.EnableDeepProfilingSupport;
 
-                if (scriptDebugging)
+                if (gameBuildOptions.ScriptDebugging)
                     options |= BuildOptions.AllowDebugging;
             }
 
             //Scripts only
-            if (scriptsOnly)
+            if (gameBuildOptions.ScriptsOnly)
                 options |= BuildOptions.BuildScriptsOnly;
 
             //Run build action pre-build
             Debug.Log("Running build actions pre build...");
             try
             {
-                BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), buildTarget, ref options);
+                BuildActions.RunPreActions(Path.GetDirectoryName(buildDir), gameBuildOptions.BuildTarget, ref options);
             }
             catch (Exception ex)
             {
@@ -174,7 +192,7 @@ namespace UnityVoltBuilder.Build
             BuildReport report = BuildPipeline.BuildPlayer(new BuildPlayerOptions
             {
                 locationPathName = buildDir,
-                target = buildTarget,
+                target = gameBuildOptions.BuildTarget,
                 options = options,
                 targetGroup = targetGroup,
                 scenes = EditorBuildSettings.scenes.Select(scene => scene.path).ToArray()

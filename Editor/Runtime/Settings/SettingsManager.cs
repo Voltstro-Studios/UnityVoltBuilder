@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
+using UnityVoltBuilder.Build;
 
 namespace UnityVoltBuilder.Settings
 {
