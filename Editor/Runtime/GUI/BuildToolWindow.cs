@@ -14,6 +14,9 @@ namespace UnityVoltBuilder.GUI
         {
             BuildSettings.DrawOptions,
             BuildActions.DrawOptions,
+#if ADDRESSABLES_SUPPORT
+            AddressablesBuilder.DrawOptions,
+#endif
             GameBuilder.DrawOptions
         };
 
