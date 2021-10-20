@@ -25,8 +25,6 @@ namespace UnityVoltBuilder.Build
                 CleanAddressablesBuild();
             
             EditorGUILayout.EndVertical();
-            
-            EditorGUILayout.Space(8f);
         }
         
         /// <summary>

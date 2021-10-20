@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -59,11 +60,13 @@ namespace UnityVoltBuilder.Build
         /// </summary>
         /// <returns></returns>
         [PublicAPI]
-        public static GameBuildOptions ToGameBuildOptions(string buildLocation, bool scriptsOnly) => 
+        public static GameBuildOptions ToGameBuildOptions(string buildLocation, bool scriptsOnly, 
+            BuildTarget? buildTarget = null, 
+            [CanBeNull] List<IBuildAction> buildActions = null) => 
             new GameBuildOptions(
             buildLocation,
-            SettingsManager.BuildTarget,
-            BuildActions.GetBuildActions(),
+            buildTarget ?? SettingsManager.BuildTarget,
+            buildActions ?? BuildActions.GetBuildActions(),
             SettingsManager.ServerBuild, 
             SettingsManager.DevelopmentBuild, 
             SettingsManager.AutoconnectProfiler, 

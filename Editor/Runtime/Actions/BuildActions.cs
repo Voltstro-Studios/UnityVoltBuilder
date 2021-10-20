@@ -105,8 +105,6 @@ namespace UnityVoltBuilder.Actions
 
                 EditorGUILayout.EndVertical();
             }
-
-            EditorGUILayout.Space(8f);
         }
 
         private void AddBuildAction(string action)

@@ -32,6 +32,11 @@ namespace UnityVoltBuilder.GUI
                 try
                 {
                     windowDraw.Invoke();
+                    EditorGUILayout.Space(8f);
+                }
+                catch (ExitGUIException)
+                {
+                    throw;
                 }
                 catch (Exception ex)
                 {
