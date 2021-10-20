@@ -1,8 +1,11 @@
 ﻿#if ADDRESSABLES_SUPPORT
 
+using System.Collections.Generic;
 using System.Diagnostics;
 using JetBrains.Annotations;
 using UnityEditor;
+using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 using UnityVoltBuilder.GUI;
@@ -10,19 +13,39 @@ using Debug = UnityEngine.Debug;
 
 namespace UnityVoltBuilder.Build
 {
-    public class AddressablesBuilder
+    public static class AddressablesBuilder
     {
+        private static AddressableAssetSettings settings;
+        
+        static AddressablesBuilder()
+        {
+            settings = AddressableAssetSettingsDefaultObject.Settings;
+        }
+        
         public static void DrawOptions()
         {
             EditorGUILayout.BeginVertical(GUIStyles.DropdownContentStyle);
 
             GUILayout.Label("Addressable Commands", GUIStyles.DropdownHeaderStyle);
-
+            
+            EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Build Addressables"))
                 BuildAddressables();
             
             if (GUILayout.Button("Clean Build"))
                 CleanAddressablesBuild();
+            
+            EditorGUILayout.EndHorizontal();
+
+            string[] names = new string[settings.DataBuilders.Count];
+            for (int i = 0; i < settings.DataBuilders.Count; i++)
+            {
+                IDataBuilder m = settings.GetDataBuilder(i);
+                if (m.CanBuildData<AddressablesPlayModeBuildResult>())
+                    names[i] = m.Name;
+            }
+            
+            settings.ActivePlayModeDataBuilderIndex = EditorGUILayout.Popup("Play Mode Script", settings.ActivePlayModeDataBuilderIndex, names);
             
             EditorGUILayout.EndVertical();
         }
