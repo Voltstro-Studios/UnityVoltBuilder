@@ -59,13 +59,13 @@ namespace UnityVoltBuilder.GUI
             windowDraws.Add(drawAction);
         }
 
-        [MenuItem("Tools/Volt Unity Builder/Volt Builder")]
+        [MenuItem("Tools/Unity Volt Builder/Volt Builder")]
         public static void ShowWindow()
         {
             GetWindow(typeof(BuildToolWindow), false, "Volt Builder");
         }
 
-        [MenuItem("Tools/Volt Unity Builder/Report an issue")]
+        [MenuItem("Tools/Unity Volt Builder/Report an issue")]
         public static void OpenIssues()
         {
             Application.OpenURL("https://github.com/Voltstro-Studios/UnityVoltBuilder/issues");
