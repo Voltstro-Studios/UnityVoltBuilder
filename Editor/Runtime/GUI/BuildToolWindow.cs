@@ -10,7 +10,7 @@ namespace UnityVoltBuilder.GUI
 {
     public sealed class BuildToolWindow : EditorWindow
     {
-        private readonly List<Action> windowDraws = new List<Action>
+        private static readonly List<Action> WindowDraws = new List<Action>
         {
             BuildSettings.DrawOptions,
             BuildActions.DrawOptions,
@@ -27,7 +27,7 @@ namespace UnityVoltBuilder.GUI
             EditorGUILayout.LabelField("Unity Volt Builder", GUIStyles.TitleStyle);
             EditorGUILayout.Space(15f);
 
-            foreach (Action windowDraw in windowDraws)
+            foreach (Action windowDraw in WindowDraws)
             {
                 try
                 {
@@ -46,17 +46,17 @@ namespace UnityVoltBuilder.GUI
         }
 
         [PublicAPI]
-        public void AddOnDraw([NotNull] Action drawAction)
+        public static void AddOnDraw([NotNull] Action drawAction)
         {
             if (drawAction == null)
                 throw new ArgumentNullException(nameof(drawAction), "Draw action cannot be null!");
 
-            if (windowDraws.Contains(drawAction))
+            if (WindowDraws.Contains(drawAction))
             {
                 Debug.LogError("Draw action has already been added!");
                 return;
             }
-            windowDraws.Add(drawAction);
+            WindowDraws.Add(drawAction);
         }
 
         [MenuItem("Tools/Unity Volt Builder/Volt Builder")]
