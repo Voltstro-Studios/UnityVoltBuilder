@@ -6,7 +6,7 @@
 
 Voltstro-Studios' Unity build tool, with a modular scripting design.
 
-# Features
+## Features
 
 - Easy to get at menu of settings to build your Unity player.
 - Build Actions (Can add custom GUI to the tool, do something before and after a build)
@@ -15,38 +15,66 @@ Voltstro-Studios' Unity build tool, with a modular scripting design.
 - Easily add additional commands to the main window
 - [Addressables](#addressables) commands
 
-# Installation
+## Installation
 
-Please read all of the install instructions before installing!
+### Voltstro-Studios UPM
 
-## Installing the package
+You can install this package from our Azure UPM. Using a scoped registry will make updating a lot easier.
 
-To install it via the package manager you will need to:
+To add the registry, simply goto Edit **->** Project Settings **->** Package Manager, and add it to 'Scoped Registries' like so:
+
+![Registry](https://user-images.githubusercontent.com/45032877/148951575-e962ed43-70bd-4eff-a8ce-5888cf0a9318.png)
+
+Or add it via your project's `manifest.json` file:
+
+```json
+{
+    "scopedRegistries": [
+        {
+          "name": "Voltstro-Studios UPM",
+          "url": "https://pkgs.dev.azure.com/Voltstro-Studios/UnityPackages/_packaging/UPM/npm/registry",
+          "scopes": [
+            "dev.voltstro"
+          ]
+        }
+      ]
+}
+```
+
+It will then appear in your package manage under 'My Registries', you can install it like any other Unity package.
+
+![UPM](Media~/PackageManager.png)
+
+## Git
+
+To install it via the package manager with git you will need to:
 
 1. Open up the package manager via Windows **->** Package Manager
 2. Click on the little + sign **->** Add package from git URL...
 3. Type `https://github.com/Voltstro-Studios/UnityVoltBuilder.git` and add it
 4. Unity will now download and install the package
 
-# Using the tool
+Please note that you will have to manually check for updates, and replace the hash (or tag version) in your project's `packages-lock.json` file.
+
+## Using the tool
 
 To use the tool, go to Tools **->** Unity Volt Builder **->** Volt Builder. It will open up a screen that looks like this:
 
-![Preview](preview.jpg)
+![Preview](Media~/preview.jpg)
 
 (Note: This is the window when [Addressables](#addressables) are installed)
 
 It is recommended to dock the window somewhere for convince.
 
-## Build Actions
+### Build Actions
 
 You can add build actions under the 'Build Actions' menu, the select what build action you want to add by selecting it in the dropdown, then press the '+' button.
 
-### ZipOnBuild
+#### ZipOnBuild
 
 This build action requires the [`com.unity.sharp-zip-lib`](https://docs.unity3d.com/Packages/com.unity.sharp-zip-lib@latest/) package to be installed. By default, the package DOES NOT appear under the Unity Registry menu in the package manager, you will need to add it manually by either altering your `manifest.json` file, or by typing `com.unity.sharp-zip-lib` into the Add package from git URL option in the package manager.
 
-### Custom Build Actions
+#### Custom Build Actions
 
 To add a custom Build Action, add a class to your project, and make it implement `IBuildAction`. You will then need to add the required methods: `OnGUI()`, `OnBeforeBuild(string buildLocation, BuildTarget buildTarget, ref BuildOptions buildOptions)`, and `OnAfterBuild(string buildLocation, BuildReport report)`.
 
@@ -76,12 +104,12 @@ public class CustomBuildAction : IBuildAction
 
 After that, the tool will automatically add it as a selectable option in the dropdown in the Build Actions.
 
-## Addressables
+### Addressables
 
 If you have the [Unity Addressables package](https://docs.unity3d.com/Packages/com.unity.addressables@latest/manual/index.html) installed, additional commands will be provided in the main window, which will allow you to both build the addressables and change the play mode script without needing the Addressables Groups window opened.
 
-# Authors
+## Authors
 Voltstro – *Initial Work* – [Voltstro](https://github.com/Voltstro)
 
-# License
-This project is licensed under the Apache-2.0 license – see the [LICENSE](/LICENSE.md) file for details.
+## License
+This project is licensed under the Apache-2.0 license – see the [LICENSE.md](/LICENSE.md) file for details.
