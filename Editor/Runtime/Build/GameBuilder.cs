@@ -148,9 +148,19 @@ namespace UnityVoltBuilder.Build
             //Setup build options
             BuildOptions options = BuildOptions.None;
 
+#if UNITY_2021_2_OR_NEWER
+            StandaloneBuildSubtarget existingBuildSubtarget = EditorUserBuildSettings.standaloneBuildSubtarget;
+#endif
+
             //Server/Headless mode
             if (gameBuildOptions.HeadlessBuild)
+            {
+#if UNITY_2021_2_OR_NEWER
+                EditorUserBuildSettings.standaloneBuildSubtarget = StandaloneBuildSubtarget.Server;
+#else
                 options |= BuildOptions.EnableHeadlessMode;
+#endif
+            }
 
             //Copy PDB files
             string existingCopyPdbFilesOptions =
@@ -208,6 +218,10 @@ namespace UnityVoltBuilder.Build
             //Set CopyPDBFiles to it's original setting
             EditorUserBuildSettings.SetPlatformSettings("Standalone", CopyPdbFilesEditorString,
                 existingCopyPdbFilesOptions);
+            
+#if UNITY_2021_2_OR_NEWER
+            EditorUserBuildSettings.standaloneBuildSubtarget = existingBuildSubtarget;
+#endif
 
             //If the build failed
             if (report.summary.result != BuildResult.Succeeded)
