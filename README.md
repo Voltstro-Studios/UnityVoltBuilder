@@ -17,35 +17,25 @@ Voltstro-Studios' Unity build tool, with a modular scripting design.
 
 ## Installation
 
-### Voltstro-Studios UPM
+There are three main sources on how you can install this package. Pick which ever one suites you the best!
 
-You can install this package from our Azure UPM. Using a scoped registry will make updating a lot easier.
+### Voltstro UPM
 
-To add the registry, simply goto Edit **->** Project Settings **->** Package Manager, and add it to 'Scoped Registries' like so:
+You can install this package from our custom UPM registry. To setup our registry, see [here](https://github.com/Voltstro/VoltstroUPM#setup).
 
-![Registry](https://user-images.githubusercontent.com/45032877/148951575-e962ed43-70bd-4eff-a8ce-5888cf0a9318.png)
+Once you have the registry added to your project, you can install it like any other package via the package manager.
 
-Or add it via your project's `manifest.json` file:
+### OpenUPM
 
-```json
-{
-    "scopedRegistries": [
-        {
-          "name": "Voltstro-Studios UPM",
-          "url": "https://pkgs.dev.azure.com/Voltstro-Studios/UnityPackages/_packaging/UPM/npm/registry",
-          "scopes": [
-            "dev.voltstro"
-          ]
-        }
-      ]
-}
+You can install this package via [OpenUPM](https://openupm.com/).
+
+To install it, use their CLI:
+
+```bash
+openupm-cli add dev.voltstro.unityvoltbuilder
 ```
 
-It will then appear in your package manage under 'My Registries', you can install it like any other Unity package.
-
-![UPM](Media~/PackageManager.png)
-
-## Git
+### Git
 
 To install it via the package manager with git you will need to:
 
